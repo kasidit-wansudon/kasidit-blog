@@ -4,14 +4,17 @@ import Link from 'next/link';
 
 const links = {
   github: 'https://github.com/kasidit-wansudon',
-  youtube: 'https://www.youtube.com/@9KASIDIT', // change to your real channel
-  x: 'https://x.com/KasiditWans',                           // optional
-  email: 'mailto:kasidit.wans@gmail.com',        // change to your email
+  youtube: 'https://www.youtube.com/@9KASIDIT',
+  x: 'https://x.com/KasiditWans',
+  email: 'mailto:kasidit.wans@gmail.com',
 };
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-50">
+    <main
+      className="min-h-screen bg-linear-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-50"
+      aria-labelledby="page-title"
+    >
       <div className="mx-auto flex max-w-4xl flex-col gap-10 px-4 py-12 md:flex-row md:items-center">
         {/* Left: intro */}
         <section className="flex-1 space-y-5">
@@ -19,7 +22,10 @@ export default function Home() {
             <p className="text-xs uppercase tracking-[0.35em] text-sky-400">
               Kasidit Wansudon
             </p>
-            <h1 className="mt-2 text-3xl font-semibold leading-tight md:text-4xl">
+            <h1
+              id="page-title"
+              className="mt-2 text-3xl font-semibold leading-tight md:text-4xl"
+            >
               Full‑stack developer in Bangkok,
               <br className="hidden md:block" />
               building web & mobile products.
@@ -54,7 +60,10 @@ export default function Home() {
             <p className="mb-1 font-medium text-slate-300">
               Around the internet
             </p>
-            <div className="flex flex-wrap gap-4">
+            <nav
+              className="flex flex-wrap gap-4"
+              aria-label="Social profiles"
+            >
               <a
                 href={links.github}
                 target="_blank"
@@ -85,7 +94,7 @@ export default function Home() {
               >
                 Email
               </a>
-            </div>
+            </nav>
           </div>
         </section>
 
@@ -96,7 +105,7 @@ export default function Home() {
               Latest work
             </p>
             <h2 className="mt-2 text-lg font-semibold text-slate-50">
-              Personal blog & guestbook
+              Personal blog &amp; guestbook
             </h2>
             <p className="mt-2 text-sm text-slate-400">
               เว็บนี้ถูกสร้างด้วย Next.js, Supabase และ Cloudflare

@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   description:
     'Kasidit Wansudon – Full‑stack developer in Bangkok. Sharing blog posts, real-world projects, and a guestbook for feedback.',
   metadataBase: new URL('https://kasidit-wans.com'),
+  alternates: {
+    canonical: 'https://kasidit-wans.com',
+  },
   openGraph: {
     title: 'Kasidit Wansudon | Full‑stack Developer',
     description:
@@ -16,8 +19,12 @@ export const metadata: Metadata = {
     siteName: 'Kasidit Wansudon',
     type: 'website',
   },
-  alternates: {
-    canonical: 'https://kasidit-wans.com',
+  twitter: {
+    card: 'summary',
+    title: 'Kasidit Wansudon | Full‑stack Developer',
+    description:
+      'Blog, projects, and guestbook by Kasidit Wansudon.',
+    site: '@KasiditWans',
   },
   icons: {
     icon: '/favicon.ico',
