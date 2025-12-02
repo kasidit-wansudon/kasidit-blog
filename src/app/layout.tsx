@@ -4,8 +4,24 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Kasidit Wansudon',
-  description: 'Personal blog and guestbook of Kasidit Wansudon',
+  title: 'Kasidit Wansudon | Full‑stack Developer',
+  description:
+    'Kasidit Wansudon – Full‑stack developer in Bangkok. Sharing blog posts, real-world projects, and a guestbook for feedback.',
+  metadataBase: new URL('https://kasidit-wans.com'),
+  openGraph: {
+    title: 'Kasidit Wansudon | Full‑stack Developer',
+    description:
+      'Personal blog, projects, and guestbook by Kasidit Wansudon.',
+    url: 'https://kasidit-wans.com',
+    siteName: 'Kasidit Wansudon',
+    type: 'website',
+  },
+  alternates: {
+    canonical: 'https://kasidit-wans.com',
+  },
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({
