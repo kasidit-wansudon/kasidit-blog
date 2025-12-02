@@ -3,7 +3,7 @@
 import Link from 'next/link';
 
 const links = {
-  github: 'https://github.com/YOUR_GITHUB_USERNAME',
+  github: 'https://github.com/kasidit-wansudon',
   youtube: 'https://www.youtube.com/@9KASIDIT', // change to your real channel
   x: 'https://x.com/KasiditWans',                           // optional
   email: 'mailto:kasidit.wans@gmail.com',        // change to your email
