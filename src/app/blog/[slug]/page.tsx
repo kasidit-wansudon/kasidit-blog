@@ -1,5 +1,6 @@
 // src/app/blog/[slug]/page.tsx
 // Comment in English
+export const runtime = 'edge';
 import { createSupabaseServerClient } from '@/lib/supabaseServer';
 import { notFound } from 'next/navigation';
 

@@ -1,4 +1,5 @@
 // src/app/blog/page.tsx
+export const runtime = 'edge';
 import { createSupabaseServerClient } from '@/lib/supabaseServer';
 import BlogList from './BlogList';
 

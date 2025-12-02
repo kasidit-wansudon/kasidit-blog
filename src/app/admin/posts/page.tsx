@@ -1,5 +1,6 @@
 // src/app/admin/posts/page.tsx
 // Comment in English
+export const runtime = 'edge';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { createSupabaseServerClient } from '@/lib/supabaseServer';
