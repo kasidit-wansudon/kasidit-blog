@@ -1,3 +1,4 @@
+// src/app/blog/[slug]/page.tsx
 // Comment in English
 import { createSupabaseServerClient } from '@/lib/supabaseServer';
 import { notFound } from 'next/navigation';
@@ -7,8 +8,9 @@ interface Props {
 }
 
 export default async function BlogPostPage({ params }: Props) {
-  const supabase = createSupabaseServerClient();
-  const {  post } = await supabase
+  const supabase = await createSupabaseServerClient(); // <- ใส่ await
+
+  const { data: post } = await supabase
     .from('posts')
     .select('*')
     .eq('slug', params.slug)
@@ -31,9 +33,11 @@ export default async function BlogPostPage({ params }: Props) {
         </p>
 
         <article className="prose prose-invert mt-6 max-w-none text-sm">
-          {post.content.split('\n').map((line: string, idx: number) => (
-            <p key={idx}>{line}</p>
-          ))}
+          {(post.content ?? '')
+            .split('\n')
+            .map((line: string, idx: number) => (
+              <p key={idx}>{line}</p>
+            ))}
         </article>
       </div>
     </main>
