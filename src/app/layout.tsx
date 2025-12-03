@@ -18,13 +18,22 @@ export const metadata: Metadata = {
     url: 'https://kasidit-wans.com',
     siteName: 'Kasidit Wansudon',
     type: 'website',
+    images: [
+      {
+        url: 'https://kasidit-wans.com/favicon.ico',
+        width: 1200,
+        height: 630,
+        alt: 'Kasidit Wansudon | Full‑stack Developer',
+      },
+    ],
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'Kasidit Wansudon | Full‑stack Developer',
     description:
       'Blog, projects, and guestbook by Kasidit Wansudon.',
     site: '@KasiditWans',
+    images: ['https://kasidit-wans.com/favicon.ico'],
   },
   icons: {
     icon: '/favicon.ico',
