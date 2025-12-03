@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://kasidit-wans.com',
   },
+  keywords: ['Kasidit Wansudon', 'Full-stack Developer', 'Bangkok', 'Thailand', 'Blog', 'Projects', 'Guestbook', 'กษิดิศ วันสุดล'],
   openGraph: {
     title: 'Kasidit Wansudon | Full‑stack Developer',
     description:
@@ -18,6 +19,7 @@ export const metadata: Metadata = {
     url: 'https://kasidit-wans.com',
     siteName: 'Kasidit Wansudon',
     type: 'website',
+    locale: 'th',
     images: [
       {
         url: 'https://kasidit-wans.com/favicon.ico',
