@@ -22,6 +22,7 @@ async function createPost(formData: FormData) {
   const slug = formData.get('slug')?.toString().trim() || '';
   const excerpt = formData.get('excerpt')?.toString().trim() || '';
   const content = formData.get('content')?.toString().trim() || '';
+  const image_url = formData.get('image_url')?.toString().trim() || '';
 
   if (!title || !slug || !content) return;
 
@@ -30,6 +31,7 @@ async function createPost(formData: FormData) {
     slug,
     excerpt,
     content,
+    image_url,
   });
 
   revalidatePath('/');
