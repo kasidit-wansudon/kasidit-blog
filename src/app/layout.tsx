@@ -11,18 +11,27 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://kasidit-wans.com',
   },
-  keywords: ['Kasidit Wansudon', 'Full-stack Developer', 'Bangkok', 'Thailand', 'Blog', 'Projects', 'Guestbook', 'กษิดิศ วันสุดล'],
+  keywords: [
+    'Kasidit Wansudon',
+    'Full-stack Developer',
+    'Bangkok',
+    'Thailand',
+    'Blog',
+    'Projects',
+    'Guestbook',
+    'กษิดิศ วันสุดล',
+  ],
   openGraph: {
     title: 'Kasidit Wansudon | Full‑stack Developer',
     description:
       'Personal blog, projects, and guestbook by Kasidit Wansudon.',
-    url: 'https://kasidit-wans.com',
+    url: './', // use metadataBase + relative URL
     siteName: 'Kasidit Wansudon',
     type: 'website',
-    locale: 'th',
+    locale: 'th_TH',
     images: [
       {
-        url: 'https://kasidit-wans.com/favicon.ico',
+        url: '/og-image.png', // สร้างไฟล์ทีหลังได้ ตอนนี้จะชี้ path นี้ไว้ก่อน
         width: 1200,
         height: 630,
         alt: 'Kasidit Wansudon | Full‑stack Developer',
@@ -35,10 +44,10 @@ export const metadata: Metadata = {
     description:
       'Blog, projects, and guestbook by Kasidit Wansudon.',
     site: '@KasiditWans',
-    images: ['https://kasidit-wans.com/favicon.ico'],
+    images: ['/og-image.png'],
   },
   icons: {
-    icon: '/favicon.ico',
+    icon: '/favicon.ico', // วางไฟล์ที่ app/favicon.ico หรือ public/favicon.ico
   },
 };
 
