@@ -48,6 +48,12 @@ export default function Home() {
               Read my blog
             </Link>
             <Link
+              href="/resume"
+              className="inline-flex items-center rounded-md border border-sky-500 px-4 py-2 text-sm font-medium text-sky-400 hover:bg-sky-500/10"
+            >
+              View Resume
+            </Link>
+            <Link
               href="/guestbook"
               className="inline-flex items-center rounded-md border border-slate-700 px-4 py-2 text-sm text-slate-200 hover:border-sky-500/70 hover:text-sky-200"
             >
