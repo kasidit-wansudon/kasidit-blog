@@ -47,7 +47,9 @@ export const metadata: Metadata = {
     images: ['/og-image.png'],
   },
   icons: {
-    icon: '/favicon.ico', // วางไฟล์ที่ app/favicon.ico หรือ public/favicon.ico
+    icon: [{ url: '/favicon.ico', type: 'image/png', sizes: '32x32' }],
+    shortcut: ['/favicon.ico'],
+    apple: [{ url: '/favicon.ico', type: 'image/png' }],
   },
 };
 
