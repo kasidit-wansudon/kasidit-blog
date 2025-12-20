@@ -47,9 +47,9 @@ export default function McpOverview() {
     <div className="mcp-wrap">
       <header className="mcp-header">
         <div className="mcp-inner">
-          <div className="mcp-h1">
+          <h1 className="mcp-h1">
             MCP (Model Context Protocol) — สรุปข้อดี/ข้อเสีย + ตัวอย่างการทำงานร่วมกัน
-          </div>
+          </h1>
           <div className="mcp-sub">
             ครอบคลุม MCP ที่มีในเครื่องคุณตอนนี้: <b>gdrive</b>, <b>brave-search</b>,{' '}
             <b>deepwiki</b>, <b>memory</b>
