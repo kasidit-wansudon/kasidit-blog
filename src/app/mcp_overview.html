@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MCP Overview (gdrive / brave-search / deepwiki / memory)</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --card:#121a33;
+      --muted:#93a4c7;
+      --text:#e8eefc;
+      --accent:#7aa7ff;
+      --good:#2dd4bf;
+      --bad:#fb7185;
+      --warn:#fbbf24;
+      --border:rgba(255,255,255,.08);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family:var(--sans);
+      background: radial-gradient(1200px 800px at 20% -10%, rgba(122,167,255,.25), transparent 45%),
+                  radial-gradient(1000px 600px at 90% 10%, rgba(45,212,191,.18), transparent 40%),
+                  var(--bg);
+      color:var(--text);
+      line-height:1.55;
+    }
+    header{
+      padding:28px 18px 14px;
+      border-bottom:1px solid var(--border);
+      position:sticky;
+      top:0;
+      backdrop-filter: blur(10px);
+      background: rgba(11,16,32,.6);
+      z-index:10;
+    }
+    .wrap{ max-width:1100px; margin:0 auto; }
+    h1{ margin:0; font-size:22px; letter-spacing:.2px; }
+    .sub{ margin-top:6px; color:var(--muted); font-size:13px; }
+    nav{
+      margin-top:14px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    nav a{
+      text-decoration:none;
+      color:var(--text);
+      padding:8px 10px;
+      border:1px solid var(--border);
+      border-radius:10px;
+      font-size:13px;
+      background: rgba(255,255,255,.03);
+    }
+    nav a:hover{ border-color: rgba(122,167,255,.35); }
+
+    main{ padding:18px; }
+    section{ margin:18px 0 28px; }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:14px;
+    }
+    .card{
+      grid-column: span 12;
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:14px;
+    }
+    @media (min-width: 900px){
+      .span-6{ grid-column: span 6; }
+      .span-8{ grid-column: span 8; }
+      .span-4{ grid-column: span 4; }
+    }
+
+    .title-row{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    h2{ margin:0 0 10px; font-size:18px; }
+    h3{ margin:0 0 10px; font-size:15px; color: #d7e3ff; }
+    .pill{
+      font-size:12px;
+      padding:4px 8px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      color:var(--muted);
+    }
+    .pill.good{ color: var(--good); border-color: rgba(45,212,191,.35); }
+    .pill.warn{ color: var(--warn); border-color: rgba(251,191,36,.35); }
+    .pill.bad{ color: var(--bad); border-color: rgba(251,113,133,.35); }
+
+    .kvs{ display:grid; gap:10px; }
+    .kv{ border:1px solid var(--border); border-radius:12px; padding:10px; background: rgba(0,0,0,.12); }
+    .kv .k{ font-weight:600; font-size:13px; }
+    .kv .v{ color:var(--muted); font-size:13px; margin-top:4px; }
+
+    .list{ margin:0; padding-left:18px; color: var(--muted); }
+    .list li{ margin:6px 0; }
+
+    .code{
+      font-family: var(--mono);
+      font-size: 12px;
+      background: rgba(0,0,0,.24);
+      border:1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px;
+      overflow:auto;
+      color:#dbe7ff;
+      white-space: pre;
+    }
+
+    .demo{
+      display:grid;
+      gap:12px;
+    }
+    .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    input[type=text]{
+      flex: 1 1 260px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      outline:none;
+    }
+    button{
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(122,167,255,.35);
+      background: rgba(122,167,255,.12);
+      color: var(--text);
+      cursor:pointer;
+      font-weight:600;
+    }
+    button:hover{ background: rgba(122,167,255,.18); }
+
+    .note{ color: var(--muted); font-size: 12px; }
+    .divider{ height:1px; background: var(--border); margin: 12px 0; }
+
+    footer{ padding:16px 18px 30px; border-top:1px solid var(--border); color: var(--muted); }
+    .small{ font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>MCP (Model Context Protocol) — สรุปข้อดี/ข้อเสีย + ตัวอย่างการทำงานร่วมกัน</h1>
+      <div class="sub">ครอบคลุม MCP ที่มีในเครื่องคุณตอนนี้: <b>gdrive</b>, <b>brave-search</b>, <b>deepwiki</b>, <b>memory</b> (สร้างเป็นหน้า static เพื่อเปิดดูผ่าน Web Preview)</div>
+      <nav>
+        <a href="#overview">ภาพรวม</a>
+        <a href="#proscons">ข้อดี/ข้อเสีย</a>
+        <a href="#collab">ตัวอย่างทำงานร่วมกัน</a>
+        <a href="#notes">ข้อควรระวัง</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <section id="overview">
+      <div class="grid">
+        <div class="card span-8">
+          <div class="title-row">
+            <h2>ภาพรวม MCP</h2>
+            <span class="pill good">แนวคิดหลัก: Tooling แบบปลั๊กอิน</span>
+          </div>
+          <div class="kvs">
+            <div class="kv">
+              <div class="k">MCP คืออะไร</div>
+              <div class="v">มาตรฐานการเชื่อม “AI Assistant” กับ “เครื่องมือ/ข้อมูลภายนอก” ผ่านชุด tool ที่เรียกใช้ได้ (เช่น search, drive, wiki, memory)</div>
+            </div>
+            <div class="kv">
+              <div class="k">ทำไมถึงดี</div>
+              <div class="v">แยกความรับผิดชอบชัดเจน: AI ทำ reasoning/ตัดสินใจ ส่วน MCP ทำงานเฉพาะทาง (ค้นหาไฟล์, ดึงข้อมูล repo, ค้นเว็บ, เก็บความจำ)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card span-4">
+          <div class="title-row">
+            <h2>สถานะจากการทดสอบล่าสุด</h2>
+            <span class="pill warn">สรุปเร็ว</span>
+          </div>
+          <ul class="list">
+            <li><b>gdrive</b>: ใช้งานได้</li>
+            <li><b>deepwiki</b>: ใช้งานได้</li>
+            <li><b>memory</b>: ใช้งานได้</li>
+            <li><b>brave-search</b>: web search ใช้ได้ แต่ local search โดน rate limit</li>
+          </ul>
+          <div class="divider"></div>
+          <div class="note">หมายเหตุ: บาง server ไม่รองรับ <code>resources</code> เป็นเรื่องปกติ (ไม่ได้แปลว่าเสีย)</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="proscons">
+      <h2>ข้อดี/ข้อเสีย (แยกตาม MCP)</h2>
+      <div class="grid">
+
+        <div class="card span-6">
+          <div class="title-row">
+            <h3>gdrive</h3>
+            <span class="pill good">เหมาะกับ “ค้น/อ่านไฟล์งาน”</span>
+          </div>
+          <div class="kvs">
+            <div class="kv">
+              <div class="k">ข้อดี</div>
+              <div class="v">
+                <ul class="list">
+                  <li>ค้นหาไฟล์/โฟลเดอร์ได้เร็ว (เหมาะกับงานเอกสาร)</li>
+                  <li>ได้ตัวระบุ resource (เช่น <code>gdrive:///...</code>) เพื่ออ้างอิงไฟล์ได้แม่น</li>
+                  <li>เหมาะกับ workflow: หาไฟล์ &rarr; สรุป &rarr; แชร์ลิงก์/ชื่อไฟล์ให้ทีม</li>
+                </ul>
+              </div>
+            </div>
+            <div class="kv">
+              <div class="k">ข้อเสีย/ข้อจำกัด</div>
+              <div class="v">
+                <ul class="list">
+                  <li>ต้อง auth ก่อน และสิทธิ์ไฟล์ขึ้นอยู่กับ account ที่ล็อกอิน</li>
+                  <li>รูปแบบ query อาจไม่รองรับแบบ Drive API 100% (ควรใช้ query สไตล์ search box เช่น <code>type:folder</code>)</li>
+                  <li>การไล่ “ไฟล์ในโฟลเดอร์” มักต้องมี folderId/URI ที่ชัดเจน</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card span-6">
+          <div class="title-row">
+            <h3>brave-search</h3>
+            <span class="pill warn">เหมาะกับ “ข้อมูลใหม่/อ้างอิงภายนอก”</span>
+          </div>
+          <div class="kvs">
+            <div class="kv">
+              <div class="k">ข้อดี</div>
+              <div class="v">
+                <ul class="list">
+                  <li>ดึงข้อมูลจากเว็บแบบหลากหลาย เหมาะกับ best practices, ข่าว, docs</li>
+                  <li>ช่วยทำ “การอ้างอิง” ให้คำแนะนำมีหลักฐานจากภายนอก</li>
+                </ul>
+              </div>
+            </div>
+            <div class="kv">
+              <div class="k">ข้อเสีย/ข้อจำกัด</div>
+              <div class="v">
+                <ul class="list">
+                  <li>เสี่ยงโดน rate limit (เจอแล้วใน local search)</li>
+                  <li>ผลค้นหาอาจผันผวนตามเวลา/ภูมิภาค</li>
+                  <li>ต้องระวังเรื่องข้อมูลส่วนตัว/ความลับขององค์กรเวลาใช้ค้นเว็บ</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card span-6">
+          <div class="title-row">
+            <h3>deepwiki</h3>
+            <span class="pill good">เหมาะกับ “ถามโครงสร้าง repo / ทำความเข้าใจระบบ”</span>
+          </div>
+          <div class="kvs">
+            <div class="kv">
+              <div class="k">ข้อดี</div>
+              <div class="v">
+                <ul class="list">
+                  <li>ตอบคำถามเชิงโครงสร้างของ repo ได้ดี (เช่น architecture / modules)</li>
+                  <li>ช่วย onboarding ทีม/ทำความเข้าใจ dependency ได้ไว</li>
+                </ul>
+              </div>
+            </div>
+            <div class="kv">
+              <div class="k">ข้อเสีย/ข้อจำกัด</div>
+              <div class="v">
+                <ul class="list">
+                  <li>จำกัดเฉพาะ repo ที่รองรับ (โดยมากคือ GitHub) และไม่ใช่ข้อมูล runtime ของระบบคุณ</li>
+                  <li>อาจไม่ทัน commit ล่าสุดเสมอ (ขึ้นกับแหล่งข้อมูล)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card span-6">
+          <div class="title-row">
+            <h3>memory</h3>
+            <span class="pill good">เหมาะกับ “เก็บบริบทระยะยาว/กติกาโปรเจกต์”</span>
+          </div>
+          <div class="kvs">
+            <div class="kv">
+              <div class="k">ข้อดี</div>
+              <div class="v">
+                <ul class="list">
+                  <li>เก็บความรู้ที่ใช้ซ้ำได้ เช่น business rules, flow, mapping, checklist</li>
+                  <li>ลดการถามซ้ำ/ลดโอกาสทำผิดมาตรฐานทีม</li>
+                </ul>
+              </div>
+            </div>
+            <div class="kv">
+              <div class="k">ข้อเสีย/ข้อจำกัด</div>
+              <div class="v">
+                <ul class="list">
+                  <li>ถ้าไม่ดูแล อาจ “เก่า/ผิด” ได้ ต้องมีการ update/ลบเมื่อ rule เปลี่ยน</li>
+                  <li>ควรหลีกเลี่ยงการเก็บความลับสำคัญลง memory ถ้าไม่จำเป็น</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="collab">
+      <h2>ตัวอย่างการทำงานร่วมกัน (Workflow Demo)</h2>
+      <div class="grid">
+        <div class="card span-8">
+          <div class="title-row">
+            <h3>Scenario: “หาเอกสารงานใน Drive แล้วหาข้อมูลอ้างอิง + เก็บความจำสำหรับรอบถัดไป”</h3>
+            <span class="pill good">gdrive + brave-search + deepwiki + memory</span>
+          </div>
+
+          <div class="demo">
+            <div class="row">
+              <input id="q" type="text" value="MEX leave approve flow" />
+              <button id="run">จำลองการไหลของงาน</button>
+              <button id="reset">ล้าง</button>
+            </div>
+            <div class="note">
+              *เดโมนี้เป็น “ตัวอย่างการทำงานร่วมกัน” แบบอธิบายขั้นตอน (หน้าเว็บ static ไม่ได้เรียก MCP จริงจาก browser)
+            </div>
+            <div id="out" class="code" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <div class="card span-4">
+          <div class="title-row">
+            <h3>ตัวอย่างผลที่เคยเจอจริง (จากการทดสอบใน session นี้)</h3>
+            <span class="pill warn">ตัวอย่าง</span>
+          </div>
+          <div class="code">gdrive resource ตัวอย่าง:
+- gdrive:///11oU31ECPqWilxLrbA8yzbU02sSgEU6AI (folk_project_catcare)
+- gdrive:///1OJwb1csvqpZzuOjTwpTT-TB8kJb26yrvRwc9KiStw2g (Track MEX leave approve flow)
+
+deepwiki ตัวอย่าง:
+- facebook/react: อ่านโครงสร้างเอกสารได้
+
+brave-search ตัวอย่าง:
+- web_search: ใช้ได้
+- local_search: rate limit exceeded (ต้องรอ/ลดความถี่)</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Pseudo-calls (มองเป็นท่อเดียวกัน)</h3>
+        <div class="code">1) gdrive: ค้นหาไฟล์งาน
+   search("MEX leave approve flow")
+   -> ได้ไฟล์ spreadsheet ที่เกี่ยวข้อง + URI
+
+2) memory: จำว่าไฟล์/โฟลเดอร์ไหนคือแหล่งข้อมูลหลัก
+   remember({ key: "leave_flow_sheet", value: "gdrive:///..." })
+
+3) brave-search: หา best practice/อ้างอิงภายนอก (ถ้าจำเป็น)
+   web_search("dingtalk approval flow best practices")
+
+4) deepwiki: ถ้าต้องอ่านโครงสร้าง repo library หรือ framework
+   ask_question(repo="...")
+
+5) สรุปผลให้ทีม/ทำ action ต่อ (เช่น สร้าง PR, ปรับ flow, ทำ checklist)</div>
+      </div>
+    </section>
+
+    <section id="notes">
+      <h2>ข้อควรระวังเวลาใช้หลาย MCP ร่วมกัน</h2>
+      <div class="grid">
+        <div class="card span-6">
+          <h3>การจัดการสิทธิ์/ข้อมูล</h3>
+          <ul class="list">
+            <li>อย่าเอาข้อมูลลับ (token/keys/ข้อมูลส่วนบุคคล) ไปค้นเว็บ</li>
+            <li>gdrive เห็นได้เท่ากับสิทธิ์ของ account ที่ auth</li>
+            <li>memory ควรเก็บเฉพาะ rule/ความรู้ที่จำเป็นและไม่ sensitive</li>
+          </ul>
+        </div>
+        <div class="card span-6">
+          <h3>ความเสถียร/ข้อจำกัด</h3>
+          <ul class="list">
+            <li>brave-search อาจโดน rate limit: ลดความถี่, แคชผล, ใช้ web_search แทน local_search</li>
+            <li>query ของ gdrive ควรใช้แบบ search box (เช่น <code>type:folder</code>) ถ้าแบบ API ไม่ติด</li>
+            <li>deepwiki เป็นเอกสาร repo ไม่ใช่ runtime state ของระบบ</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="wrap small">หน้าเอกสารนี้ถูกสร้างเพื่อใช้อธิบาย “ข้อดี/ข้อเสียของ MCP” และ “แนวทางทำงานร่วมกัน” ใน Web Preview</div>
+  </footer>
+
+  <script>
+    const out = document.getElementById('out');
+    const q = document.getElementById('q');
+
+    function log(line){
+      out.textContent += line + "\n";
+      out.scrollTop = out.scrollHeight;
+    }
+
+    function run(){
+      out.textContent = "";
+      const query = (q.value || "").trim();
+
+      log("เริ่ม workflow: " + (query || "(ไม่มีคำค้น)") + "\n");
+
+      log("[1] gdrive.search: ค้นหาเอกสาร/โฟลเดอร์จากคำค้น");
+      log("    query = '" + query + "'");
+      log("    -> (ตัวอย่าง) ได้ไฟล์ที่เกี่ยวข้อง + gdrive:///... URI");
+
+      log("\n[2] memory: บันทึกว่าไฟล์นี้คือแหล่งข้อมูลหลัก");
+      log("    remember(key='primary_doc', value='gdrive:///...')");
+
+      log("\n[3] brave-search: หาอ้างอิงภายนอก/วิธีทำงาน/แนวปฏิบัติ");
+      log("    web_search('" + (query ? query + " best practices" : "best practices") + "')");
+      log("    -> (หมายเหตุ) ถ้า local_search โดน rate limit ให้ใช้ web_search แทน");
+
+      log("\n[4] deepwiki: ถ้าต้องอ่านโครงสร้าง repo เพื่อทำความเข้าใจระบบ");
+      log("    read_wiki_structure(repo='facebook/react') (ตัวอย่าง)\n");
+
+      log("[5] สรุปผล: ส่งชื่อไฟล์/ลิงก์/ข้อเสนอแนะที่อ้างอิงได้ให้ทีม");
+    }
+
+    document.getElementById('run').addEventListener('click', run);
+    document.getElementById('reset').addEventListener('click', () => { out.textContent = ""; });
+
+    // render default
+    run();
+  </script>
+</body>
+</html>
