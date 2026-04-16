@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DDIA — Designing Data-Intensive Applications</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0d0d0d;
+    --surface: #141414;
+    --surface2: #1a1a1a;
+    --border: #222;
+    --accent: #3b82f6;
+    --accent2: #8b5cf6;
+    --accent3: #10b981;
+    --accent4: #f59e0b;
+    --accent5: #ef4444;
+    --text: #e5e5e5;
+    --muted: #666;
+    --muted2: #999;
+  }
+  body {
+    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    background: #0d0d0dee;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 24px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    z-index: 100;
+    align-items: center;
+  }
+  nav .logo { font-weight: 700; color: var(--accent); margin-right: 12px; font-size: 0.9rem; white-space: nowrap; }
+  nav a {
+    color: var(--muted2);
+    text-decoration: none;
+    font-size: 0.78rem;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  nav a:hover { color: #fff; border-color: var(--border); }
+
+  /* LAYOUT */
+  .container { max-width: 860px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  h1 { font-size: 2rem; font-weight: 800; color: #fff; margin-bottom: 6px; }
+  .subtitle { color: var(--muted2); font-size: 0.9rem; margin-bottom: 40px; }
+  .subtitle span { color: var(--accent); }
+
+  /* PART HEADER */
+  .part-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 48px 0 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .part-badge {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted2);
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+  .part-title { font-size: 1.25rem; font-weight: 700; color: #fff; }
+
+  /* CONCEPT CARD */
+  .concept-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 22px;
+    margin-bottom: 14px;
+    transition: border-color 0.2s;
+  }
+  .concept-card:hover { border-color: #333; }
+  .concept-card.blue { border-left: 3px solid var(--accent); }
+  .concept-card.purple { border-left: 3px solid var(--accent2); }
+  .concept-card.green { border-left: 3px solid var(--accent3); }
+  .concept-card.amber { border-left: 3px solid var(--accent4); }
+  .concept-card.red { border-left: 3px solid var(--accent5); }
+
+  .concept-card h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .concept-card h3 .tag {
+    font-size: 0.68rem;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .tag.blue { background: #3b82f622; color: var(--accent); }
+  .tag.purple { background: #8b5cf622; color: var(--accent2); }
+  .tag.green { background: #10b98122; color: var(--accent3); }
+  .tag.amber { background: #f59e0b22; color: var(--accent4); }
+  .tag.red { background: #ef444422; color: var(--accent5); }
+
+  .concept-card p { color: var(--muted2); font-size: 0.88rem; margin-bottom: 10px; }
+  .concept-card .point {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.84rem;
+    color: #ccc;
+    margin-top: 8px;
+    border: 1px solid #1e1e1e;
+  }
+  .concept-card .point strong { color: #fff; }
+  .concept-card .vs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .vs-box {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 0.82rem;
+    border: 1px solid #1e1e1e;
+  }
+  .vs-box .vs-title { font-weight: 600; color: #fff; margin-bottom: 4px; font-size: 0.8rem; }
+  .vs-box p { color: var(--muted2); font-size: 0.8rem; margin: 0; }
+
+  /* QUOTE */
+  .quote {
+    border-left: 3px solid var(--accent2);
+    padding: 12px 16px;
+    background: #8b5cf611;
+    border-radius: 0 10px 10px 0;
+    margin: 24px 0;
+    font-size: 0.88rem;
+    color: #bbb;
+    font-style: italic;
+  }
+
+  /* TABLE */
+  .mini-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.82rem; }
+  .mini-table th {
+    text-align: left;
+    color: var(--muted);
+    font-weight: 600;
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--border);
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    letter-spacing: 0.5px;
+  }
+  .mini-table td {
+    padding: 8px 10px;
+    color: #ccc;
+    border-bottom: 1px solid #1a1a1a;
+    vertical-align: top;
+  }
+  .mini-table td:first-child { color: #fff; font-weight: 600; }
+  .mini-table tr:last-child td { border-bottom: none; }
+
+  /* KEY TAKEAWAY */
+  .takeaway {
+    background: #10b98111;
+    border: 1px solid #10b98133;
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-top: 12px;
+    font-size: 0.85rem;
+    color: #6ee7b7;
+  }
+  .takeaway::before { content: '✦ '; font-weight: 700; }
+
+  /* DANGER */
+  .danger {
+    background: #ef444411;
+    border: 1px solid #ef444433;
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-top: 12px;
+    font-size: 0.85rem;
+    color: #fca5a5;
+  }
+  .danger::before { content: '⚠ '; font-weight: 700; }
+
+  /* TL;DR banner */
+  .tldr {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border: 1px solid #3b82f633;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 40px;
+  }
+  .tldr h2 { font-size: 1rem; color: var(--accent); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+  .tldr-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+  .tldr-item {
+    background: #ffffff08;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 0.82rem;
+    color: #ccc;
+  }
+  .tldr-item .num { font-size: 1.5rem; font-weight: 800; color: #fff; display: block; line-height: 1; margin-bottom: 4px; }
+
+  /* REAL WORLD */
+  .realworld {
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 0.82rem;
+    color: #aaa;
+    margin-top: 8px;
+    border: 1px solid #1e1e1e;
+  }
+  .realworld::before { content: '🏭 Real world: '; color: var(--accent4); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">📘 DDIA</span>
+  <a href="#part1">Part 1: Foundations</a>
+  <a href="#part2">Part 2: Distributed</a>
+  <a href="#part3">Part 3: Derived Data</a>
+</nav>
+
+<div class="container">
+
+  <h1>Designing Data-Intensive Applications</h1>
+  <p class="subtitle">Martin Kleppmann — สรุปเฉพาะ concept ที่ใช้งานจริง <span>@ OPPO IT</span></p>
+
+  <!-- TL;DR -->
+  <div class="tldr">
+    <h2>TL;DR — หนังสือนี้สอนอะไร?</h2>
+    <div class="tldr-grid">
+      <div class="tldr-item"><span class="num">3</span>สิ่งที่ระบบต้องการ: Reliability, Scalability, Maintainability</div>
+      <div class="tldr-item"><span class="num">2</span>ประเภท database หลัก: Relational vs NoSQL</div>
+      <div class="tldr-item"><span class="num">∞</span>ปัญหา distributed systems: network, clocks, consensus</div>
+      <div class="tldr-item"><span class="num">1</span>ความจริงที่โหด: ไม่มีระบบที่ perfect — ต้องเลือก trade-off</div>
+    </div>
+  </div>
+
+  <div class="quote">"The limits of my data model are the limits of my world." — paraphrase DDIA spirit</div>
+
+  <!-- ===== PART 1 ===== -->
+  <div id="part1" class="part-header">
+    <span class="part-badge">Part 1</span>
+    <span class="part-title">Foundations of Data Systems</span>
+  </div>
+
+  <!-- Reliability / Scalability / Maintainability -->
+  <div class="concept-card blue">
+    <h3>Reliability, Scalability, Maintainability <span class="tag blue">Ch.1</span></h3>
+    <p>3 เป้าหมายหลักของระบบ data-intensive — เลือกไม่ได้แค่อันเดียว</p>
+    <div class="vs">
+      <div class="vs-box">
+        <div class="vs-title">🛡 Reliability</div>
+        <p>ทำงานถูกต้องแม้มี fault — hardware พัง, bug, user ป้อนข้อมูลผิด</p>
+      </div>
+      <div class="vs-box">
+        <div class="vs-title">📈 Scalability</div>
+        <p>รับ load ที่เพิ่มขึ้นได้ — วัดด้วย throughput, latency percentile (p99)</p>
+      </div>
+      <div class="vs-box">
+        <div class="vs-title">🔧 Maintainability</div>
+        <p>คนอื่นทำงานต่อได้ง่าย — operability, simplicity, evolvability</p>
+      </div>
+      <div class="vs-box">
+        <div class="vs-title">⚖️ Fault vs Failure</div>
+        <p>Fault = ส่วนหนึ่งผิดปกติ, Failure = ระบบล้มทั้งหมด ออกแบบให้ tolerate fault</p>
+      </div>
+    </div>
+    <div class="realworld">Twitter fanout problem — ส่ง tweet ให้ follower ล้านคน: push vs pull trade-off</div>
+  </div>
+
+  <!-- Data Models -->
+  <div class="concept-card purple">
+    <h3>Data Models <span class="tag purple">Ch.2</span></h3>
+    <p>วิธีที่เราแทนข้อมูล — กำหนดว่าจะทำอะไรได้บ้าง</p>
+    <table class="mini-table">
+      <tr><th>Model</th><th>เหมาะกับ</th><th>ตัวอย่าง</th></tr>
+      <tr><td>Relational (SQL)</td><td>ข้อมูล structured, มี relationship ซับซ้อน, ACID ต้องการ</td><td>MySQL, PostgreSQL</td></tr>
+      <tr><td>Document (NoSQL)</td><td>ข้อมูล self-contained, schema flexible, read ทีเดียวครบ</td><td>MongoDB, DynamoDB</td></tr>
+      <tr><td>Graph</td><td>ความสัมพันธ์ซับซ้อนมาก เช่น social network, fraud detection</td><td>Neo4j</td></tr>
+    </table>
+    <div class="takeaway">ไม่มี model ที่ดีที่สุด — ดู access pattern ก่อนเลือก DB</div>
+  </div>
+
+  <!-- Storage & Retrieval -->
+  <div class="concept-card green">
+    <h3>Storage & Retrieval — Index คืออะไร <span class="tag green">Ch.3</span></h3>
+    <p>DB เก็บข้อมูลอย่างไร และหาข้อมูลได้เร็วแค่ไหน</p>
+    <div class="vs">
+      <div class="vs-box">
+        <div class="vs-title">🌳 B-Tree Index</div>
+        <p>Standard ใน SQL DB — ดีสำหรับ read-heavy, range query ได้</p>
+      </div>
+      <div class="vs-box">
+        <div class="vs-title">📝 LSM-Tree + SSTable</div>
+        <p>ใน LevelDB, RocksDB, Cassandra — ดีสำหรับ write-heavy, append-only</p>
+      </div>
+    </div>
+    <div class="point">
+      <strong>OLTP vs OLAP:</strong> OLTP = transaction รายวัน (low latency, high volume) | OLAP = analytics query ข้อมูลเยอะ (data warehouse, Redshift, BigQuery)
+    </div>
+    <div class="realworld">Column-oriented storage (Parquet, ORC) — query analytics เร็วขึ้น 10-100x เพราะอ่านแค่ column ที่ต้องการ</div>
+  </div>
+
+  <!-- Encoding -->
+  <div class="concept-card amber">
+    <h3>Encoding & Evolution <span class="tag amber">Ch.4</span></h3>
+    <p>วิธี serialize ข้อมูล — สำคัญมากตอน deploy version ใหม่</p>
+    <table class="mini-table">
+      <tr><th>Format</th><th>ข้อดี</th><th>ข้อเสีย</th></tr>
+      <tr><td>JSON / XML</td><td>Human-readable, universal</td><td>ใหญ่, ไม่มี schema enforcement</td></tr>
+      <tr><td>Protocol Buffers</td><td>เล็ก, เร็ว, schema ชัดเจน</td><td>ต้องมี .proto file</td></tr>
+      <tr><td>Avro</td><td>Schema evolution ดีมาก</td><td>ซับซ้อนกว่า</td></tr>
+    </table>
+    <div class="takeaway">Forward/Backward compatibility — code ใหม่ต้องอ่าน data เก่าได้ และ code เก่าต้องอ่าน data ใหม่ได้ (rolling deploy)</div>
+  </div>
+
+  <!-- ===== PART 2 ===== -->
+  <div id="part2" class="part-header">
+    <span class="part-badge">Part 2</span>
+    <span class="part-title">Distributed Data</span>
+  </div>
+
+  <!-- Replication -->
+  <div class="concept-card blue">
+    <h3>Replication — ก๊อปข้อมูลไว้หลายที่ <span class="tag blue">Ch.5</span></h3>
+    <p>เหตุผลหลัก: latency ต่ำ (ใกล้ user) + high availability + scale read</p>
+    <div class="vs">
+      <div class="vs-box">
+        <div class="vs-title">👑 Single-Leader</div>
+        <p>มี leader รับ write, follower รับ read — ง่าย, consistent แต่ leader เป็น bottleneck</p>
+      </div>
+      <div class="vs-box">
+        <div class="vs-title">👑👑 Multi-Leader</div>
+        <p>หลาย DC เขียนได้พร้อมกัน — latency ต่ำข้ามประเทศ แต่ conflict ยาก</p>
+      </div>
+      <div class="vs-box">
+        <div class="vs-title">🤝 Leaderless</div>
+        <p>Dynamo-style — quorum write/read, ไม่มี single point of failure</p>
+      </div>
+      <div class="vs-box">
+        <div class="vs-title">⏱ Replication Lag</div>
+        <p>Async replication = follower อาจข้อมูลเก่า — "read-your-writes" consistency ต้องจัดการพิเศษ</p>
+      </div>
+    </div>
+    <div class="danger">Replication lag ทำให้ user เห็นข้อมูลเก่าหลัง write — อย่า assume follower = up-to-date เสมอ</div>
+  </div>
+
+  <!-- Partitioning -->
+  <div class="concept-card purple">
+    <h3>Partitioning / Sharding <span class="tag purple">Ch.6</span></h3>
+    <p>แบ่งข้อมูลออกเป็นก้อน เก็บแยก node — scale เกินกว่า 1 machine ได้</p>
+    <div class="vs">
+      <div class="vs-box">
+        <div class="vs-title">🔑 By Key Range</div>
+        <p>เรียงตาม key — range query ง่าย แต่ hotspot ถ้า key ไม่กระจาย</p>
+      </div>
+      <div class="vs-box">
+        <div class="vs-title">#️⃣ By Hash</div>
+        <p>Hash key → กระจาย load ดี แต่ range query ช้า</p>
+      </div>
+    </div>
+    <div class="point">
+      <strong>Hotspot problem:</strong> ถ้า partition key เดิมถูกเข้าถึงเยอะ (เช่น celebrity account) — ต้องเพิ่ม random suffix หรือ application-level spreading
+    </div>
+    <div class="realworld">Cassandra ใช้ consistent hashing, DynamoDB ใช้ partition key + sort key</div>
+  </div>
+
+  <!-- Transactions -->
+  <div class="concept-card green">
+    <h3>Transactions & ACID <span class="tag green">Ch.7</span></h3>
+    <p>การ์ด IT ที่ต้องรู้ก่อนใช้ database ใดก็ตาม</p>
+    <div class="vs">
+      <div class="vs-box">
+        <div class="vs-title">⚛️ Atomicity</div>
+        <p>ทำทั้งหมดหรือไม่ทำเลย — ไม่มีครึ่งๆ กลางๆ</p>
+      </div>
+      <div class="vs-box">
+        <div class="vs-title">🔒 Isolation</div>
+        <p>Transaction ไม่เห็นกันระหว่างทำ — Serializable, Snapshot, Read Committed</p>
+      </div>
+      <div class="vs-box">
+        <div class="vs-title">💾 Durability</div>
+        <p>Commit แล้วไม่หาย แม้ crash — write-ahead log (WAL)</p>
+      </div>
+      <div class="vs-box">
+        <div class="vs-title">🎭 Isolation Levels</div>
+        <p>Read Uncommitted → Read Committed → Repeatable Read → Serializable (เร็ว↕ช้า)</p>
+      </div>
+    </div>
+    <div class="point">
+      <strong>Phantom read / dirty read / lost update</strong> — ปัญหาที่เกิดเมื่อ isolation level ต่ำเกินไป ต้องรู้ว่า DB ที่ใช้อยู่รองรับระดับไหน
+    </div>
+    <div class="takeaway">MySQL InnoDB default = Repeatable Read | PostgreSQL default = Read Committed</div>
+  </div>
+
+  <!-- Distributed Troubles -->
+  <div class="concept-card red">
+    <h3>ปัญหาของ Distributed Systems <span class="tag red">Ch.8</span></h3>
+    <p>ทำไม distributed system ถึงยากกว่าที่คิด</p>
+    <div class="vs">
+      <div class="vs-box">
+        <div class="vs-title">🌐 Network</div>
+        <p>Packet หาย, ช้า, duplicate ได้เสมอ — timeout ≠ failure</p>
+      </div>
+      <div class="vs-box">
+        <div class="vs-title">⏰ Clocks</div>
+        <p>NTP drift — อย่า trust timestamp ข้าม node สำหรับ ordering</p>
+      </div>
+      <div class="vs-box">
+        <div class="vs-title">🧟 Process Pause</div>
+        <p>GC pause, VM suspension — node อาจ "หายไป" แล้วกลับมา ข้อมูล stale</p>
+      </div>
+      <div class="vs-box">
+        <div class="vs-title">🔮 No global state</div>
+        <p>ไม่มีใครเห็น "ปัจจุบัน" เหมือนกัน — ทุกอย่างคือ approximation</p>
+      </div>
+    </div>
+    <div class="danger">อย่า assume network reliable, อย่า assume clock sync — design for failure, not against it</div>
+  </div>
+
+  <!-- Consistency & Consensus -->
+  <div class="concept-card amber">
+    <h3>Consistency & Consensus <span class="tag amber">Ch.9</span></h3>
+    <p>CAP Theorem และ consensus protocol — หัวใจของ distributed DB</p>
+    <div class="vs">
+      <div class="vs-box">
+        <div class="vs-title">📐 CAP Theorem</div>
+        <p>เลือกได้แค่ 2 จาก 3: Consistency, Availability, Partition tolerance — ในความเป็นจริง P หลีกเลี่ยงไม่ได้ → เลือก CP หรือ AP</p>
+      </div>
+      <div class="vs-box">
+        <div class="vs-title">🗳 Consensus</div>
+        <p>Paxos / Raft — ทำให้ nodes ตกลงกันได้แม้มีบางตัวล้ม ใช้ใน etcd, ZooKeeper, CockroachDB</p>
+      </div>
+    </div>
+    <div class="point">
+      <strong>Linearizability</strong> = ทุก read เห็นข้อมูลล่าสุด เหมือนมี copy เดียว — แพงมาก (latency สูง)<br><br>
+      <strong>Eventual Consistency</strong> = ข้อมูลจะตรงกันในที่สุด แต่ไม่รู้เมื่อไหร่ — เร็วกว่า ถูกกว่า
+    </div>
+    <div class="realworld">DynamoDB, Cassandra = eventual consistency by default | Google Spanner = external consistency (linearizable แบบ global)</div>
+  </div>
+
+  <!-- ===== PART 3 ===== -->
+  <div id="part3" class="part-header">
+    <span class="part-badge">Part 3</span>
+    <span class="part-title">Derived Data</span>
+  </div>
+
+  <!-- Batch Processing -->
+  <div class="concept-card blue">
+    <h3>Batch Processing <span class="tag blue">Ch.10</span></h3>
+    <p>ประมวลผลข้อมูลปริมาณมากในครั้งเดียว — offline, ไม่ต้องการ real-time</p>
+    <div class="point">
+      <strong>MapReduce philosophy:</strong> เอา code ไปหาข้อมูล (แทนที่จะดึงข้อมูลมา) — sort-merge join, distributed grep<br><br>
+      <strong>Modern alternatives:</strong> Spark, Flink — in-memory, DAG execution แทน disk-heavy MapReduce
+    </div>
+    <div class="takeaway">Batch = bounded dataset (ข้อมูลมีจุดสิ้นสุด) — ต่างจาก stream ที่ไม่มีจุดจบ</div>
+  </div>
+
+  <!-- Stream Processing -->
+  <div class="concept-card purple">
+    <h3>Stream Processing <span class="tag purple">Ch.11</span></h3>
+    <p>ประมวลผลข้อมูลแบบ real-time ขณะที่มันไหลเข้ามา</p>
+    <div class="vs">
+      <div class="vs-box">
+        <div class="vs-title">📨 Message Queue</div>
+        <p>RabbitMQ — deliver แล้วลบ, low latency, ไม่เก็บประวัติ</p>
+      </div>
+      <div class="vs-box">
+        <div class="vs-title">📜 Log-based (Kafka)</div>
+        <p>เก็บ event ทุกอย่าง, consumer อ่านซ้ำได้, replay ได้ — เหมาะ audit, reprocessing</p>
+      </div>
+    </div>
+    <div class="point">
+      <strong>Event sourcing:</strong> เก็บทุก event แทนที่จะเก็บ current state — ย้อน state ณ เวลาใดก็ได้<br><br>
+      <strong>CQRS:</strong> แยก read model กับ write model — write = event store, read = materialized view
+    </div>
+    <div class="realworld">Kafka ที่ OPPO/Alibaba ecosystem ใช้กันมาก — DingTalk notification, order processing, HR sync events</div>
+  </div>
+
+  <!-- The Future -->
+  <div class="concept-card green">
+    <h3>The Future of Data Systems <span class="tag green">Ch.12</span></h3>
+    <p>บทสรุปและ philosophy ของ Kleppmann</p>
+    <div class="point">
+      <strong>Lambda Architecture:</strong> batch layer (accurate) + speed layer (real-time) → merge ผล<br><br>
+      <strong>Kappa Architecture:</strong> stream เดียวจัดการทุกอย่าง — replay batch ด้วย Kafka<br><br>
+      <strong>Dataflow thinking:</strong> ระบบที่ดีคือ pipeline ของ transformation — input → transform → output ชัดเจน ไม่มี side effect ซ่อน
+    </div>
+    <div class="takeaway">เลือก tool ตาม access pattern ไม่ใช่ตาม hype — "use the right tool for the job"</div>
+  </div>
+
+  <!-- Final summary table -->
+  <div style="margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border);">
+    <div class="part-title" style="margin-bottom: 16px;">⚡ Quick Reference — เลือก DB/Tool อย่างไร</div>
+    <div class="concept-card blue" style="border-left: none;">
+      <table class="mini-table">
+        <tr><th>ต้องการ</th><th>เลือก</th><th>หลีกเลี่ยง</th></tr>
+        <tr><td>ACID transactions</td><td>PostgreSQL, MySQL</td><td>Cassandra, DynamoDB</td></tr>
+        <tr><td>Write throughput สูง</td><td>Cassandra, DynamoDB, Kafka</td><td>Single-node SQL</td></tr>
+        <tr><td>Flexible schema</td><td>MongoDB, DynamoDB</td><td>Strict relational schema</td></tr>
+        <tr><td>Full-text search</td><td>Elasticsearch, Meilisearch</td><td>SQL LIKE queries</td></tr>
+        <tr><td>Time series</td><td>InfluxDB, TimescaleDB</td><td>General-purpose DB</td></tr>
+        <tr><td>Graph/relationships</td><td>Neo4j, Amazon Neptune</td><td>Relational JOIN chains</td></tr>
+        <tr><td>Analytics / OLAP</td><td>BigQuery, Redshift, ClickHouse</td><td>OLTP DB for reporting</td></tr>
+        <tr><td>Event streaming</td><td>Apache Kafka, Pulsar</td><td>Polling DB ทุก N วินาที</td></tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
