@@ -13,10 +13,47 @@ import McpOverview from './McpOverview';
 
 const links = {
   github: 'https://github.com/kasidit-wansudon',
-  youtube: 'https://www.youtube.com/@9KASIDIT',
+  linkedin: 'https://www.linkedin.com/in/kasidit-wansudon/',
+  youtube: 'https://www.youtube.com/@Kasidit_Wansudon',
+  tiktok: 'https://www.tiktok.com/@kasidit.wans',
   x: 'https://x.com/KasiditWans',
   email: 'mailto:kasidit.wans@gmail.com',
 };
+
+const products = [
+  {
+    eyebrow: 'Open Source · AI Framework',
+    title: 'Kasidit',
+    description:
+      'Mindful AI coding framework for Claude Code. ห้าโหมด, แปด specialist agents, runtime hooks, default checklists ที่ทำให้ AI coding ลึกและกราวด์ ไม่ hallucinate. MIT.',
+    url: 'https://kasi.kasion.dev',
+    tags: ['Claude Code', 'AI', 'TypeScript', 'MIT'],
+  },
+  {
+    eyebrow: 'Studio · Parent Org',
+    title: 'Kasion',
+    description:
+      'Studio หลักรวม Kasidit, KasionL1, Phlik Career และโปรเจกต์ใหม่ที่กำลังลองในตลาด SEA — โฟกัสคน Thai-first.',
+    url: 'https://kasion.dev',
+    tags: ['Studio', 'SEA', 'AI Products'],
+  },
+  {
+    eyebrow: 'AI Engine',
+    title: 'KasionL1',
+    description:
+      'Career AI engine ตัวกลางที่ขับ Phlik และ apps อื่นใน Kasion ออกแบบให้เข้าใจบริบทคนทำงานในไทย ไม่ใช่ generic prompt.',
+    url: 'https://l1.kasion.dev',
+    tags: ['AI Engine', 'Career', 'Thai NLP'],
+  },
+  {
+    eyebrow: 'Mobile · Career Coach',
+    title: 'Phlik Career',
+    description:
+      'พลิกอาชีพ — AI career coach app สำหรับมืออาชีพในไทยและ SEA. ตัวช่วยคิด resume / role / สัมภาษณ์ แบบ conversation ไม่ใช่ template.',
+    url: 'https://phlik.kasion.dev',
+    tags: ['Mobile', 'Android', 'Web', 'AI Coach'],
+  },
+];
 
 export default function Home() {
   const { profile, experiences, skills, languages } = resumeDataEN;
@@ -109,11 +146,17 @@ export default function Home() {
               <a href={links.github} target="_blank" rel="noreferrer" className="hover:text-sky-400">
                 GitHub
               </a>
-              <a href={links.youtube} target="_blank" rel="noreferrer" className="hover:text-sky-400">
-                YouTube
+              <a href={links.linkedin} target="_blank" rel="noreferrer" className="hover:text-sky-400">
+                LinkedIn
               </a>
               <a href={links.x} target="_blank" rel="noreferrer" className="hover:text-sky-400">
                 X / Twitter
+              </a>
+              <a href={links.youtube} target="_blank" rel="noreferrer" className="hover:text-sky-400">
+                YouTube
+              </a>
+              <a href={links.tiktok} target="_blank" rel="noreferrer" className="hover:text-sky-400">
+                TikTok
               </a>
               <a href={links.email} className="hover:text-sky-400">
                 Email
@@ -197,6 +240,54 @@ export default function Home() {
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* Products / ผลงานในตลาด */}
+        <section className="rounded-3xl border border-slate-900/70 bg-slate-950/40 p-6">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-sky-400">
+                Products & live experiments
+              </p>
+              <h2 className="mt-2 text-2xl font-semibold text-white">ผลงานที่ออกตลาดจริง</h2>
+              <p className="mt-1 text-sm text-slate-400">
+                Studio ส่วนตัว + open-source framework ที่ใช้กับงานจริงทั้งใน SEA และ global.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+            {products.map((p) => (
+              <a
+                key={p.title}
+                href={p.url}
+                target="_blank"
+                rel="noreferrer"
+                className="group rounded-2xl border border-slate-800 bg-slate-900/50 p-5 transition hover:border-sky-500/60 hover:bg-slate-900/80"
+              >
+                <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-sky-400">
+                  {p.eyebrow}
+                </p>
+                <h3 className="mt-2 text-lg font-semibold text-white group-hover:text-sky-300">
+                  {p.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-300">{p.description}</p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {p.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full bg-slate-950 px-2.5 py-0.5 text-[10px] text-slate-400"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <p className="mt-4 text-xs text-slate-500 group-hover:text-sky-300">
+                  {p.url.replace(/^https?:\/\//, '')} →
+                </p>
+              </a>
+            ))}
           </div>
         </section>
 
