@@ -1,7 +1,12 @@
+'use client';
+
 // src/app/page.tsx
 import Link from 'next/link';
 
+import { LanguageToggle } from '@/components/LanguageToggle';
+import { useLanguage } from '@/components/LanguageProvider';
 import { resumeDataEN } from '@/data/resume';
+import { productsContent, t, ui } from '@/lib/i18n';
 import {
   formatDateRange,
   formatExperienceDuration,
@@ -20,54 +25,12 @@ const links = {
   email: 'mailto:kasidit.wans@gmail.com',
 };
 
-const products = [
-  {
-    eyebrow: 'Open Source · AI Framework',
-    title: 'Kasidit',
-    descriptionTh:
-      'Mindful AI coding framework สำหรับ Claude Code — ห้าโหมด, แปด specialist agents, runtime hooks, default checklists ที่ทำให้ AI coding ลึกและกราวด์ ไม่ hallucinate. MIT.',
-    descriptionEn:
-      'Mindful AI coding framework for Claude Code. Five modes, eight specialist agents, runtime hooks, and default checklists that keep model output grounded. MIT.',
-    url: 'https://kasi.kasion.dev',
-    tags: ['Claude Code', 'AI', 'TypeScript', 'MIT'],
-  },
-  {
-    eyebrow: 'Studio · Parent Org',
-    title: 'Kasion',
-    descriptionTh:
-      'Studio หลักรวม Kasidit, KasionL1, Phlik Career และโปรเจกต์ใหม่ที่กำลังลองในตลาด SEA — โฟกัสคน Thai-first.',
-    descriptionEn:
-      'The umbrella studio behind Kasidit, KasionL1, and Phlik Career. AI products built for the SEA market with a Thai-first lens.',
-    url: 'https://kasion.dev',
-    tags: ['Studio', 'SEA', 'AI Products'],
-  },
-  {
-    eyebrow: 'AI Engine',
-    title: 'KasionL1',
-    descriptionTh:
-      'Career AI engine ตัวกลางที่ขับ Phlik และ apps อื่นใน Kasion ออกแบบให้เข้าใจบริบทคนทำงานในไทย ไม่ใช่ generic prompt.',
-    descriptionEn:
-      'Career AI engine that powers Phlik and other Kasion apps. Tuned around Thai workplace context — not generic prompts.',
-    url: 'https://l1.kasion.dev',
-    tags: ['AI Engine', 'Career', 'Thai NLP'],
-  },
-  {
-    eyebrow: 'Mobile · Career Coach',
-    title: 'Phlik Career',
-    descriptionTh:
-      'พลิกอาชีพ — AI career coach app สำหรับมืออาชีพในไทยและ SEA. ตัวช่วยคิด resume / role / สัมภาษณ์ แบบ conversation ไม่ใช่ template.',
-    descriptionEn:
-      'AI career coach app for SEA professionals. Conversation-led guidance for resumes, role decisions, and interviews — not templates.',
-    url: 'https://phlik.kasion.dev',
-    tags: ['Mobile', 'Android', 'Web', 'AI Coach'],
-  },
-];
-
 export default function Home() {
+  const { lang } = useLanguage();
   const { profile, experiences, skills, languages } = resumeDataEN;
   const topExperiences = sortExperiencesForResume(experiences).slice(0, 2);
   const topSkills = getTopSkills(skills, 6);
-  const languageSummary = languages?.map((lang) => lang.name).join(' · ');
+  const languageSummary = languages?.map((l) => l.name).join(' · ');
 
   return (
     <main
@@ -77,20 +40,22 @@ export default function Home() {
       <div className="mx-auto flex max-w-5xl flex-col gap-10 px-4 py-12">
         {/* Hero */}
         <section className="rounded-[30px] border border-slate-900/60 bg-slate-950/40 p-8 shadow-2xl shadow-black/20">
-          <div>
-            <p className="text-xs uppercase tracking-[0.35em] text-sky-400">
-              Kasidit Wansudon
-            </p>
-            <h1
-              id="page-title"
-              className="mt-3 text-3xl font-semibold leading-tight text-white md:text-5xl"
-            >
-              {profile.title} in Bangkok — building web & mobile systems end-to-end.
-            </h1>
-            <p className="mt-4 max-w-3xl text-base leading-relaxed text-slate-300">
-              {profile.summary ||
-                'Full-stack developer ที่ชอบสร้างระบบจริง ตั้งแต่ออกแบบสถาปัตยกรรมจนถึง ship ให้ผู้ใช้จริง พร้อมเล่าเบื้องหลังผ่าน blog และ guestbook.'}
-            </p>
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <p className="text-xs uppercase tracking-[0.35em] text-sky-400">
+                Kasidit Wansudon
+              </p>
+              <h1
+                id="page-title"
+                className="mt-3 text-3xl font-semibold leading-tight text-white md:text-5xl"
+              >
+                {profile.title} {t(ui.hero.titleSuffix, lang)}
+              </h1>
+              <p className="mt-4 max-w-3xl text-base leading-relaxed text-slate-300">
+                {profile.summary || t(ui.hero.summaryFallback, lang)}
+              </p>
+            </div>
+            <LanguageToggle />
           </div>
 
           <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-slate-300">
@@ -125,31 +90,31 @@ export default function Home() {
               href="/blog"
               className="inline-flex items-center rounded-full bg-sky-500 px-5 py-2.5 text-sm font-semibold text-slate-950 shadow-lg shadow-sky-500/30 transition hover:bg-sky-400"
             >
-              อ่านบทความ
+              {t(ui.hero.ctaBlog, lang)}
             </Link>
             <Link
               href="/resume"
               className="inline-flex items-center rounded-full border border-sky-500/70 px-5 py-2.5 text-sm font-semibold text-sky-300 transition hover:bg-sky-500/10"
             >
-              ดู Resume
+              {t(ui.hero.ctaResume, lang)}
             </Link>
             <Link
               href="/guestbook"
               className="inline-flex items-center rounded-full border border-slate-700 px-5 py-2.5 text-sm text-slate-200 transition hover:border-sky-500/70 hover:text-sky-200"
             >
-              ฝากข้อความ
+              {t(ui.hero.ctaGuestbook, lang)}
             </Link>
             <Link
               href="/cascade"
               className="inline-flex items-center rounded-full border border-slate-800 px-5 py-2.5 text-sm text-slate-200 transition hover:border-sky-500/70 hover:text-sky-200"
             >
-              Cascade / MCP
+              {t(ui.hero.ctaCascade, lang)}
             </Link>
           </div>
 
           {/* Social */}
           <div className="mt-8 border-t border-slate-800 pt-4 text-xs text-slate-400">
-            <p className="mb-2 font-semibold text-slate-300">Around the internet</p>
+            <p className="mb-2 font-semibold text-slate-300">{t(ui.hero.socialHeading, lang)}</p>
             <nav className="flex flex-wrap gap-4" aria-label="Social profiles">
               <a href={links.github} target="_blank" rel="noreferrer" className="hover:text-sky-400">
                 GitHub
@@ -176,17 +141,25 @@ export default function Home() {
         {/* Stats */}
         <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <StatCard
-            label="ประสบการณ์"
-            value={`${profile.yearsOfExperience ?? 0}+ ปี`}
-            caption="สร้างระบบ production"
+            label={t(ui.stats.experience, lang)}
+            value={`${profile.yearsOfExperience ?? 0}+ ${t(ui.stats.experienceUnit, lang)}`}
+            caption={t(ui.stats.experienceCaption, lang)}
           />
           <StatCard
-            label="โฟกัส"
-            value={profile.focusAreas?.slice(0, 2).join(', ') || 'Full-stack'}
-            caption="เน้น Flutter, Node.js, Laravel, Vue.js"
+            label={t(ui.stats.focus, lang)}
+            value={profile.focusAreas?.slice(0, 2).join(', ') || t(ui.stats.focusFallback, lang)}
+            caption={t(ui.stats.focusCaption, lang)}
           />
-          <StatCard label="องค์กรปัจจุบัน" value={profile.currentCompany ?? '-'} caption="Full Stack Programmer" />
-          <StatCard label="ภาษา" value={languageSummary ?? '-'} caption="พร้อมสื่อสารกับทีม" />
+          <StatCard
+            label={t(ui.stats.company, lang)}
+            value={profile.currentCompany ?? '-'}
+            caption={t(ui.stats.companyCaption, lang)}
+          />
+          <StatCard
+            label={t(ui.stats.languages, lang)}
+            value={languageSummary ?? '-'}
+            caption={t(ui.stats.languagesCaption, lang)}
+          />
         </section>
 
         {/* Experience & skills */}
@@ -194,11 +167,13 @@ export default function Home() {
           <div className="space-y-4">
             <header className="flex items-center justify-between">
               <div>
-                <p className="text-xs uppercase tracking-[0.25em] text-sky-400">Selected work</p>
-                <h2 className="text-xl font-semibold text-white">Projects & impact</h2>
+                <p className="text-xs uppercase tracking-[0.25em] text-sky-400">
+                  {t(ui.selectedWork.eyebrow, lang)}
+                </p>
+                <h2 className="text-xl font-semibold text-white">{t(ui.selectedWork.title, lang)}</h2>
               </div>
               <Link href="/resume" className="text-sm text-slate-400 underline decoration-dotted hover:text-sky-400">
-                ดูทั้งหมด
+                {t(ui.selectedWork.seeAll, lang)}
               </Link>
             </header>
             {topExperiences.map((exp) => (
@@ -226,9 +201,9 @@ export default function Home() {
 
           <div className="space-y-4">
             <header>
-              <p className="text-xs uppercase tracking-[0.25em] text-sky-400">Core skills</p>
-              <h2 className="text-xl font-semibold text-white">Tech stack & tools</h2>
-              <p className="mt-1 text-sm text-slate-400">ชุดทักษะที่ใช้จริงใน production และงาน consult</p>
+              <p className="text-xs uppercase tracking-[0.25em] text-sky-400">{t(ui.skills.eyebrow, lang)}</p>
+              <h2 className="text-xl font-semibold text-white">{t(ui.skills.title, lang)}</h2>
+              <p className="mt-1 text-sm text-slate-400">{t(ui.skills.lead, lang)}</p>
             </header>
             <div className="grid gap-3 sm:grid-cols-2">
               {topSkills.map((skill) => (
@@ -251,27 +226,18 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Products / ผลงานในตลาด */}
+        {/* Products / ผลงาน */}
         <section className="rounded-3xl border border-slate-900/70 bg-slate-950/40 p-6">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-sky-400">
-                Products & live experiments
-              </p>
-              <h2 className="mt-2 text-2xl font-semibold text-white">
-                ผลงานที่ออกตลาดจริง / Shipped products
-              </h2>
-              <p className="mt-1 text-sm text-slate-400" lang="th">
-                Studio ส่วนตัว + open-source framework ที่ใช้กับงานจริงทั้งใน SEA และ global.
-              </p>
-              <p className="mt-1 text-xs text-slate-500" lang="en">
-                A personal studio and open-source framework used in real work across SEA and globally.
-              </p>
-            </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-sky-400">
+              {t(ui.products.eyebrow, lang)}
+            </p>
+            <h2 className="mt-2 text-2xl font-semibold text-white">{t(ui.products.title, lang)}</h2>
+            <p className="mt-1 text-sm text-slate-400">{t(ui.products.lead, lang)}</p>
           </div>
 
           <div className="mt-6 grid gap-4 md:grid-cols-2">
-            {products.map((p) => (
+            {productsContent.map((p) => (
               <a
                 key={p.title}
                 href={p.url}
@@ -280,17 +246,12 @@ export default function Home() {
                 className="group rounded-2xl border border-slate-800 bg-slate-900/50 p-5 transition hover:border-sky-500/60 hover:bg-slate-900/80"
               >
                 <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-sky-400">
-                  {p.eyebrow}
+                  {t(p.eyebrow, lang)}
                 </p>
                 <h3 className="mt-2 text-lg font-semibold text-white group-hover:text-sky-300">
                   {p.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-300" lang="th">
-                  {p.descriptionTh}
-                </p>
-                <p className="mt-2 text-xs leading-relaxed text-slate-400" lang="en">
-                  {p.descriptionEn}
-                </p>
+                <p className="mt-2 text-sm leading-relaxed text-slate-300">{t(p.description, lang)}</p>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {p.tags.map((tag) => (
                     <span
@@ -311,12 +272,11 @@ export default function Home() {
 
         {/* Latest work */}
         <section className="rounded-3xl border border-slate-900/70 bg-linear-to-br from-slate-950/80 via-slate-900 to-slate-950/80 p-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">Latest work</p>
-          <h2 className="mt-3 text-2xl font-semibold text-white">Personal blog & guestbook</h2>
-          <p className="mt-2 text-sm leading-relaxed text-slate-300">
-            แพลตฟอร์มเดียวที่เล่า process การพัฒนา, เก็บโน้ตเทคนิค และให้คนฝากคอมเมนต์ได้แบบ real-time
-            โดยเชื่อม Next.js 14, Supabase และ Cloudflare Pages เข้าด้วยกัน
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">
+            {t(ui.latestWork.eyebrow, lang)}
           </p>
+          <h2 className="mt-3 text-2xl font-semibold text-white">{t(ui.latestWork.title, lang)}</h2>
+          <p className="mt-2 text-sm leading-relaxed text-slate-300">{t(ui.latestWork.body, lang)}</p>
           <div className="mt-4 flex flex-wrap gap-2 text-[11px] text-slate-300">
             {['Next.js 14', 'Supabase', 'Cloudflare Pages', 'TypeScript', 'Tailwind'].map((tag) => (
               <span key={tag} className="rounded-full bg-slate-900/80 px-3 py-1">
@@ -330,17 +290,15 @@ export default function Home() {
         <section className="rounded-[32px] border border-slate-900/50 bg-slate-950/30 p-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-sky-400">MCP stack</p>
-              <h2 className="mt-2 text-2xl font-semibold text-white">Tools & workflows I automate</h2>
-              <p className="mt-1 text-sm text-slate-400">
-                สรุป server ที่ใช้งานจริง (gdrive, brave-search, deepwiki, memory) พร้อมวิธีทำงานร่วมกับทีม
-              </p>
+              <p className="text-xs uppercase tracking-[0.3em] text-sky-400">{t(ui.mcp.eyebrow, lang)}</p>
+              <h2 className="mt-2 text-2xl font-semibold text-white">{t(ui.mcp.title, lang)}</h2>
+              <p className="mt-1 text-sm text-slate-400">{t(ui.mcp.lead, lang)}</p>
             </div>
             <Link
               href="/cascade"
               className="inline-flex items-center rounded-full border border-slate-700 px-4 py-2 text-sm text-slate-200 transition hover:border-sky-500/70 hover:text-sky-200"
             >
-              เปิดเอกสารเต็ม
+              {t(ui.mcp.cta, lang)}
             </Link>
           </div>
           <div className="mt-6 overflow-hidden rounded-2xl border border-slate-900 bg-slate-950">
