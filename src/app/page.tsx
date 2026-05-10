@@ -1,6 +1,7 @@
 'use client';
 
 // src/app/page.tsx
+import { useState } from 'react';
 import Link from 'next/link';
 
 import { LanguageToggle } from '@/components/LanguageToggle';
@@ -27,6 +28,7 @@ const links = {
 
 export default function Home() {
   const { lang } = useLanguage();
+  const [mcpOpen, setMcpOpen] = useState(false);
   const { profile, experiences, skills, languages } = resumeDataEN;
   const topExperiences = sortExperiencesForResume(experiences).slice(0, 2);
   const topSkills = getTopSkills(skills, 6);
@@ -301,9 +303,39 @@ export default function Home() {
               {t(ui.mcp.cta, lang)}
             </Link>
           </div>
-          <div className="mt-6 overflow-hidden rounded-2xl border border-slate-900 bg-slate-950">
-            <McpOverview />
-          </div>
+
+          <button
+            type="button"
+            onClick={() => setMcpOpen((prev) => !prev)}
+            aria-expanded={mcpOpen}
+            aria-controls="mcp-overview-panel"
+            className="mt-6 inline-flex w-full items-center justify-between rounded-2xl border border-slate-800 bg-slate-950/60 px-4 py-3 text-left text-sm text-slate-200 transition hover:border-sky-500/60 hover:text-sky-200"
+          >
+            <span>
+              {mcpOpen
+                ? lang === 'th'
+                  ? 'ซ่อน MCP overview'
+                  : 'Hide MCP overview'
+                : lang === 'th'
+                ? 'ดู MCP overview แบบเต็ม'
+                : 'Show MCP overview'}
+            </span>
+            <span
+              aria-hidden
+              className={`text-xs text-slate-400 transition-transform ${mcpOpen ? 'rotate-180' : ''}`}
+            >
+              ▾
+            </span>
+          </button>
+
+          {mcpOpen ? (
+            <div
+              id="mcp-overview-panel"
+              className="mt-4 overflow-hidden rounded-2xl border border-slate-900 bg-slate-950"
+            >
+              <McpOverview />
+            </div>
+          ) : null}
         </section>
       </div>
     </main>
