@@ -309,29 +309,15 @@ export default function Home() {
             onClick={() => setMcpOpen((prev) => !prev)}
             aria-expanded={mcpOpen}
             aria-controls="mcp-overview-panel"
-            className="mt-6 inline-flex w-full items-center justify-between rounded-2xl border border-slate-800 bg-slate-950/60 px-4 py-3 text-left text-sm text-slate-200 transition hover:border-sky-500/60 hover:text-sky-200"
+            className="mt-4 text-sm text-sky-400 underline decoration-dotted hover:text-sky-300"
           >
-            <span>
-              {mcpOpen
-                ? lang === 'th'
-                  ? 'ซ่อน MCP overview'
-                  : 'Hide MCP overview'
-                : lang === 'th'
-                ? 'ดู MCP overview แบบเต็ม'
-                : 'Show MCP overview'}
-            </span>
-            <span
-              aria-hidden
-              className={`text-xs text-slate-400 transition-transform ${mcpOpen ? 'rotate-180' : ''}`}
-            >
-              ▾
-            </span>
+            {lang === 'th' ? 'ดู MCP overview' : 'Show MCP overview'}
           </button>
 
           {mcpOpen ? (
             <div
               id="mcp-overview-panel"
-              className="mt-4 overflow-hidden rounded-2xl border border-slate-900 bg-slate-950"
+              className="mt-6 overflow-hidden rounded-2xl border border-slate-900 bg-slate-950"
             >
               <McpOverview />
             </div>

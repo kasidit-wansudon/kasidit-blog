@@ -141,4 +141,74 @@ export const productsContent = [
     url: 'https://phlik.kasion.dev',
     tags: ['Mobile', 'Android', 'Web', 'AI Coach'],
   },
+  {
+    eyebrow: { th: 'Hub · ผลงานรวม', en: 'Hub · Portfolio' } as Dict,
+    title: 'Digital Hub',
+    description: {
+      th: 'หน้ารวมเครื่องมือ + workspace ของผม สำหรับ docs, internal tools, warehouse, และ reporting แบบ one-stop.',
+      en: 'My personal command point — docs, internal tools, warehouse, and reporting destinations in one front door.',
+    } as Dict,
+    url: 'https://kasidit-wans.com/',
+    tags: ['Hub', 'Vite', 'React'],
+  },
+  {
+    eyebrow: { th: 'Documentation', en: 'Documentation' } as Dict,
+    title: 'Oak Docs',
+    description: {
+      th: 'Technical notes + developer references + implementation details ที่ใช้จริง คนอ่านแล้วทำงานต่อได้เลย',
+      en: 'Technical notes, developer references, and implementation details kept readable for everyday use.',
+    } as Dict,
+    url: 'https://kasidit-wansudon.github.io/oak-docs',
+    tags: ['Docs', 'Internal'],
+  },
+  {
+    eyebrow: { th: 'Analysis Tool', en: 'Analysis Tool' } as Dict,
+    title: 'Living Calculator',
+    description: {
+      th: 'เครื่องคิดต้นทุนการใช้ชีวิตในแต่ละเมือง ช่วยตัดสินใจย้ายงาน/ย้ายเมือง โดยไม่ต้องเปิด spreadsheet',
+      en: 'Compare cost-of-living signals across cities for fast relocation and salary decisions — without spreadsheets.',
+    } as Dict,
+    url: 'https://kasidit-wansudon.github.io/cost-of-living-calculator/',
+    tags: ['Tool', 'Decision Support'],
+  },
+  {
+    eyebrow: { th: 'Warehouse Ops', en: 'Warehouse Ops' } as Dict,
+    title: 'App Warehouse (WMS)',
+    description: {
+      th: 'Warehouse management system focus การเคลื่อนไหวของ stock + การควบคุม flow operation จริง',
+      en: 'Working warehouse management interface for stock visibility, operational flow, and control.',
+    } as Dict,
+    url: 'https://kasidit-wansudon.github.io/oppo-wms/',
+    tags: ['Operations', 'Inventory'],
+  },
+  {
+    eyebrow: { th: 'Commercial Timing', en: 'Commercial Timing' } as Dict,
+    title: 'Sales Timing App',
+    description: {
+      th: 'จัดเวลา selling window + รายงาน sales pace ใช้คุม campaign และเช็คจังหวะการขาย',
+      en: 'Manage selling windows and surface sales pace insights for campaigns and reporting cadence.',
+    } as Dict,
+    url: 'https://pc.kasidit-wans.com/',
+    tags: ['Sales', 'Reporting'],
+  },
+  {
+    eyebrow: { th: 'Control Tower', en: 'Control Tower' } as Dict,
+    title: 'Catering Control Tower',
+    description: {
+      th: 'Stock-planning dashboard สำหรับโรงอาหาร เตรียมเชื่อม Odoo workflow',
+      en: 'Stock-planning concept for cafeteria operations, structured for Odoo-connected workflows.',
+    } as Dict,
+    url: 'https://stock.kasidit-wans.com/',
+    tags: ['Operations', 'F&B'],
+  },
+  {
+    eyebrow: { th: 'Open Source · Code', en: 'Open Source · Code' } as Dict,
+    title: 'GitHub',
+    description: {
+      th: '174 repos บน GitHub — Kasidit framework, Kasion suite, tools, experiments. ดู source code ได้ทั้งหมด',
+      en: '174 repositories — Kasidit framework, Kasion suite, internal tools, and experiments. All source.',
+    } as Dict,
+    url: 'https://github.com/kasidit-wansudon',
+    tags: ['Source', 'OSS', '174 repos'],
+  },
 ];
