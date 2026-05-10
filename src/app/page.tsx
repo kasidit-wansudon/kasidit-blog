@@ -314,14 +314,14 @@ export default function Home() {
             {lang === 'th' ? 'ดู MCP overview' : 'Show MCP overview'}
           </button>
 
-          {mcpOpen ? (
-            <div
-              id="mcp-overview-panel"
-              className="mt-6 overflow-hidden rounded-2xl border border-slate-900 bg-slate-950"
-            >
-              <McpOverview />
-            </div>
-          ) : null}
+          <div
+            id="mcp-overview-panel"
+            className={`mt-6 overflow-hidden rounded-2xl border border-slate-900 bg-slate-950 ${
+              mcpOpen ? '' : 'hidden'
+            }`}
+          >
+            <McpOverview />
+          </div>
         </section>
       </div>
     </main>
