@@ -24,32 +24,40 @@ const products = [
   {
     eyebrow: 'Open Source · AI Framework',
     title: 'Kasidit',
-    description:
-      'Mindful AI coding framework for Claude Code. ห้าโหมด, แปด specialist agents, runtime hooks, default checklists ที่ทำให้ AI coding ลึกและกราวด์ ไม่ hallucinate. MIT.',
+    descriptionTh:
+      'Mindful AI coding framework สำหรับ Claude Code — ห้าโหมด, แปด specialist agents, runtime hooks, default checklists ที่ทำให้ AI coding ลึกและกราวด์ ไม่ hallucinate. MIT.',
+    descriptionEn:
+      'Mindful AI coding framework for Claude Code. Five modes, eight specialist agents, runtime hooks, and default checklists that keep model output grounded. MIT.',
     url: 'https://kasi.kasion.dev',
     tags: ['Claude Code', 'AI', 'TypeScript', 'MIT'],
   },
   {
     eyebrow: 'Studio · Parent Org',
     title: 'Kasion',
-    description:
+    descriptionTh:
       'Studio หลักรวม Kasidit, KasionL1, Phlik Career และโปรเจกต์ใหม่ที่กำลังลองในตลาด SEA — โฟกัสคน Thai-first.',
+    descriptionEn:
+      'The umbrella studio behind Kasidit, KasionL1, and Phlik Career. AI products built for the SEA market with a Thai-first lens.',
     url: 'https://kasion.dev',
     tags: ['Studio', 'SEA', 'AI Products'],
   },
   {
     eyebrow: 'AI Engine',
     title: 'KasionL1',
-    description:
+    descriptionTh:
       'Career AI engine ตัวกลางที่ขับ Phlik และ apps อื่นใน Kasion ออกแบบให้เข้าใจบริบทคนทำงานในไทย ไม่ใช่ generic prompt.',
+    descriptionEn:
+      'Career AI engine that powers Phlik and other Kasion apps. Tuned around Thai workplace context — not generic prompts.',
     url: 'https://l1.kasion.dev',
     tags: ['AI Engine', 'Career', 'Thai NLP'],
   },
   {
     eyebrow: 'Mobile · Career Coach',
     title: 'Phlik Career',
-    description:
+    descriptionTh:
       'พลิกอาชีพ — AI career coach app สำหรับมืออาชีพในไทยและ SEA. ตัวช่วยคิด resume / role / สัมภาษณ์ แบบ conversation ไม่ใช่ template.',
+    descriptionEn:
+      'AI career coach app for SEA professionals. Conversation-led guidance for resumes, role decisions, and interviews — not templates.',
     url: 'https://phlik.kasion.dev',
     tags: ['Mobile', 'Android', 'Web', 'AI Coach'],
   },
@@ -250,9 +258,14 @@ export default function Home() {
               <p className="text-xs font-semibold uppercase tracking-[0.25em] text-sky-400">
                 Products & live experiments
               </p>
-              <h2 className="mt-2 text-2xl font-semibold text-white">ผลงานที่ออกตลาดจริง</h2>
-              <p className="mt-1 text-sm text-slate-400">
+              <h2 className="mt-2 text-2xl font-semibold text-white">
+                ผลงานที่ออกตลาดจริง / Shipped products
+              </h2>
+              <p className="mt-1 text-sm text-slate-400" lang="th">
                 Studio ส่วนตัว + open-source framework ที่ใช้กับงานจริงทั้งใน SEA และ global.
+              </p>
+              <p className="mt-1 text-xs text-slate-500" lang="en">
+                A personal studio and open-source framework used in real work across SEA and globally.
               </p>
             </div>
           </div>
@@ -272,7 +285,12 @@ export default function Home() {
                 <h3 className="mt-2 text-lg font-semibold text-white group-hover:text-sky-300">
                   {p.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-300">{p.description}</p>
+                <p className="mt-2 text-sm leading-relaxed text-slate-300" lang="th">
+                  {p.descriptionTh}
+                </p>
+                <p className="mt-2 text-xs leading-relaxed text-slate-400" lang="en">
+                  {p.descriptionEn}
+                </p>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {p.tags.map((tag) => (
                     <span
