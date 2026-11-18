@@ -15,6 +15,8 @@ import {
 } from '@/lib/resumeUtils';
 
 import McpOverview from './McpOverview';
+import { PinIcon, StarIcon } from '@/components/Icons';
+import LuxButton from '@/components/LuxButton';
 
 const links = {
   github: 'https://github.com/kasidit-wansudon',
@@ -155,12 +157,9 @@ export default function Home() {
             style={{ animationDelay: '240ms' }}
           >
             <PillCta href={links.email} label={t(h.ctaPrimary, lang)} />
-            <a
-              href="#work"
-              className="rounded-full border border-white/15 px-6 py-3.5 text-[15px] font-medium text-white/85 transition hover:border-white/40 hover:text-white"
-            >
+            <LuxButton href="#work" icon="down">
               {t(h.ctaSecondary, lang)}
-            </a>
+            </LuxButton>
           </div>
 
           <p className="mt-8 flex items-center justify-center gap-2 text-sm text-white/45">
@@ -209,7 +208,7 @@ export default function Home() {
                   <span className="dot-grid pointer-events-none absolute inset-0 opacity-40" aria-hidden />
                   <span className="relative min-w-0">
                     <span className="inline-flex items-center gap-2 rounded-full border border-[#2f6bff]/50 bg-[#2f6bff]/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#b9ccff]">
-                      ★ {lang === 'th' ? 'แนะนำ' : 'Featured'}
+                      <StarIcon /> {lang === 'th' ? 'แนะนำ' : 'Featured'}
                     </span>
                     <span className="mt-3 block text-2xl font-medium tracking-[-0.03em] md:text-3xl">{q.title}</span>
                     <span className="mt-1 block text-sm text-white/60">{t(q.note, lang)}</span>
@@ -384,8 +383,8 @@ export default function Home() {
                 aria-hidden
               />
               <div className="rounded-2xl border border-dashed border-white/15 px-5 py-4 md:ml-10">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/40">
-                  📍 {lang === 'th' ? 'จุดเริ่มต้น' : 'Where it all started'} · {formatDateRange(storyOrigin.start).split(' - ')[0]} ·{' '}
+                <p className="flex flex-wrap items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/40">
+                  <PinIcon className="h-3.5 w-3.5 text-[#8fb0ff]" /> {lang === 'th' ? 'จุดเริ่มต้น' : 'Where it all started'} · {formatDateRange(storyOrigin.start).split(' - ')[0]} ·{' '}
                   {t(storyOrigin.place, lang)}
                 </p>
                 <p className="mt-1.5 text-sm font-medium text-white/80">{t(storyOrigin.role, lang)}</p>
@@ -420,12 +419,9 @@ export default function Home() {
             title={t(ui.mcp.title, lang)}
             lead={t(ui.mcp.lead, lang)}
             action={
-              <Link
-                href="/cascade"
-                className="rounded-full border border-white/15 px-4 py-2 text-sm text-white/80 transition hover:border-white/40"
-              >
+              <LuxButton href="/cascade" icon="doc" size="sm">
                 {t(ui.mcp.cta, lang)}
-              </Link>
+              </LuxButton>
             }
           />
           <button
@@ -460,14 +456,9 @@ export default function Home() {
             <p className="mx-auto mt-4 max-w-lg text-white/55">{t(h.contactBody, lang)}</p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <PillCta href={links.email} label={t(h.ctaPrimary, lang)} />
-              <a
-                href={links.x}
-                target="_blank"
-                rel="noreferrer"
-                className="rounded-full border border-white/15 px-6 py-3.5 text-[15px] font-medium text-white/85 transition hover:border-white/40"
-              >
+              <LuxButton href={links.x} icon="arrow" external>
                 X / @KasiditWans
-              </a>
+              </LuxButton>
             </div>
           </div>
         </section>

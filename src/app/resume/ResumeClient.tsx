@@ -8,6 +8,8 @@ import { LanguageToggle } from '@/components/LanguageToggle';
 import { useLanguage } from '@/components/LanguageProvider';
 import { resumeDataEN, resumeDataTH, resumeLabels } from '@/data/resume';
 import { storyChapters, t } from '@/lib/i18n';
+import { PinIcon } from '@/components/Icons';
+import LuxButton from '@/components/LuxButton';
 import {
   formatDateRange,
   formatExperienceDuration,
@@ -52,12 +54,9 @@ export default function ResumeClient() {
           </Link>
           <div className="flex items-center gap-2">
             <LanguageToggle />
-            <Link
-              href="/"
-              className="hidden rounded-full border border-white/10 px-4 py-1.5 text-sm text-white/70 transition hover:text-white sm:inline-flex"
-            >
-              ← {labels.backToHome}
-            </Link>
+            <LuxButton href="/" icon="back" iconSide="left" size="sm" className="hidden sm:inline-flex">
+              {labels.backToHome}
+            </LuxButton>
           </div>
         </nav>
       </header>
@@ -97,15 +96,9 @@ export default function ResumeClient() {
                   </span>
                 </a>
               ) : (
-                <a
-                  key={pdf.href}
-                  href={pdf.href}
-                  download
-                  className="inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-3.5 text-[15px] font-medium text-white/85 transition hover:border-white/40"
-                >
-                  <DownloadIcon />
+                <LuxButton key={pdf.href} href={pdf.href} icon="download" download>
                   {labels[pdf.key]}
-                </a>
+                </LuxButton>
               ),
             )}
           </div>
@@ -179,8 +172,8 @@ export default function ResumeClient() {
           </ol>
           {/* Small origin note: how far it has come */}
           <div className="mt-10 rounded-2xl border border-dashed border-white/15 px-5 py-4">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/40">
-              📍 {lang === 'th' ? 'จุดเริ่มต้น' : 'Where it all started'} · {storyChapters[0].start.slice(0, 4)} ·{' '}
+            <p className="flex flex-wrap items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/40">
+              <PinIcon className="h-3.5 w-3.5 text-[#8fb0ff]" /> {lang === 'th' ? 'จุดเริ่มต้น' : 'Where it all started'} · {storyChapters[0].start.slice(0, 4)} ·{' '}
               {t(storyChapters[0].place, lang)}
             </p>
             <p className="mt-1.5 text-sm text-white/60">
@@ -296,8 +289,11 @@ export default function ResumeClient() {
       </div>
 
       <footer className="border-t border-white/[0.06] px-4 py-10 text-center text-sm text-white/45">
-        <Link href="/" className="transition hover:text-white">
-          ← {labels.backToHome}
+        <Link href="/" className="inline-flex items-center gap-1.5 transition hover:text-white">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden>
+            <path d="M19 12H5m6-6-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          {labels.backToHome}
         </Link>
         <span className="mx-3">·</span>
         <a href="/Resume_Kasidit_wansudon.pdf" download className="transition hover:text-white">
