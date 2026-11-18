@@ -4,10 +4,12 @@ import type { Metadata } from 'next';
 import SiteNav from '@/components/SiteNav';
 import { SITE_URL } from '@/lib/blog';
 import GuestbookClient from './GuestbookClient';
+import GuestbookHeader from './GuestbookHeader';
 
 export const metadata: Metadata = {
   title: 'Guestbook | Kasidit Wansudon',
-  description: 'ฝากข้อความถึง Kasidit Wansudon — ทักทาย ถามเรื่อง AI, coding หรือการทำงานที่เม็กซิโกได้เลย',
+  description:
+    'Guestbook ของ Kasidit Wansudon — ฝากข้อความ ทักทาย หรือถามเรื่อง AI และ coding / Leave a message, say hi or ask about AI and coding.',
   alternates: { canonical: `${SITE_URL}/guestbook` },
 };
 
@@ -22,13 +24,7 @@ export default function GuestbookPage() {
           aria-hidden
         />
         <div className="relative mx-auto max-w-5xl">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#8fb0ff]">Guestbook</p>
-          <h1 className="animate-rise mt-4 text-5xl font-medium leading-[1.05] tracking-[-0.05em] md:text-7xl">
-            ทักทายกันหน่อย
-          </h1>
-          <p className="mt-6 max-w-xl text-white/60 md:text-lg">
-            อ่านบทความแล้วมีคำถาม อยากคุยเรื่อง AI agent หรือแค่แวะมาบอกว่ามาจากไหน — เขียนไว้ตรงนี้ได้เลยครับ
-          </p>
+          <GuestbookHeader />
         </div>
       </section>
       <section className="mx-auto max-w-5xl px-4 pb-28">

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import SiteNav from '@/components/SiteNav';
 import { blogPath, formatDate, getAllPosts, SITE_URL, type BlogLang } from '@/lib/blog';
 import BlogExplorer from './BlogExplorer';
+import BlogLangSync from './BlogLangSync';
 import LangSwitch from './LangSwitch';
 import { BLOG_TEXT } from './text';
 
@@ -54,7 +55,8 @@ export default function BlogIndex({ lang }: { lang: BlogLang }) {
   return (
     <main lang={lang} className="min-h-screen overflow-x-hidden bg-black text-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <SiteNav section="blog" active="/blog" />
+      <SiteNav section="blog" active="/blog" pageLang={lang} langHrefs={{ th: '/blog', en: '/en/blog' }} />
+      <BlogLangSync lang={lang} otherHref={lang === 'th' ? '/en/blog' : '/blog'} />
 
       <section className="relative px-4 pb-10 pt-36 md:pt-40">
         <div className="dot-grid pointer-events-none absolute inset-0" aria-hidden />

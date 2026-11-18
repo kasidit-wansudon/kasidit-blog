@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import type { BlogLang } from '@/lib/blog-shared';
+import { useLanguage } from '@/components/LanguageProvider';
 
 /** TH / EN pill linking to the same page in the other language (or null when there is no counterpart). */
 export default function LangSwitch({
@@ -11,6 +14,7 @@ export default function LangSwitch({
   thHref: string | null;
   enHref: string | null;
 }) {
+  const { setLang } = useLanguage();
   const item = (code: BlogLang, href: string | null) => {
     const active = code === lang;
     const cls = `px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] transition ${
@@ -24,7 +28,7 @@ export default function LangSwitch({
       );
     }
     return (
-      <Link key={code} href={href} hrefLang={code} className={cls}>
+      <Link key={code} href={href} hrefLang={code} className={cls} onClick={() => setLang(code)}>
         {code}
       </Link>
     );

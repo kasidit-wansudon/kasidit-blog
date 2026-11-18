@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 
 import SiteNav from '@/components/SiteNav';
 import { blogPath, formatDate, getAllPosts, getPost, getRelated, hasPost, SITE_URL, type BlogLang } from '@/lib/blog';
+import BlogLangSync from './BlogLangSync';
 import LangSwitch from './LangSwitch';
 import { BLOG_TEXT } from './text';
 
@@ -81,7 +82,13 @@ export default function PostView({ slug, lang }: { slug: string; lang: BlogLang 
   return (
     <main lang={lang} className="min-h-screen overflow-x-hidden bg-black text-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <SiteNav section="blog" active="/blog" />
+      <SiteNav
+        section="blog"
+        active="/blog"
+        pageLang={lang}
+        langHrefs={{ [lang]: blogPath(lang, post.slug), [other]: otherHref }}
+      />
+      <BlogLangSync lang={lang} otherHref={otherHref} />
 
       <header className="relative px-4 pb-10 pt-36 md:pt-40">
         <div
