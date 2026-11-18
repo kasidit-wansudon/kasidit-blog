@@ -1,7 +1,11 @@
 'use client';
 
-// Client component for Resume page with language toggle
-import { useState } from 'react';
+// Resume page — same dark "growth" style as the home page.
+// Language comes from the site-wide LanguageProvider (TH/EN toggle shared with home).
+import Link from 'next/link';
+
+import { LanguageToggle } from '@/components/LanguageToggle';
+import { useLanguage } from '@/components/LanguageProvider';
 import { resumeDataEN, resumeDataTH, resumeLabels } from '@/data/resume';
 import {
   formatDateRange,
@@ -13,10 +17,13 @@ import {
   ResumeProject,
 } from '@/lib/resumeUtils';
 
-type Lang = 'en' | 'th';
+const PDFS = [
+  { href: '/Resume_Kasidit_Wansudon_2026.pdf', key: 'downloadPdf', primary: true },
+  { href: '/Resume_Kasidit_Wansudon_2026_TH.pdf', key: 'downloadPdfTh', primary: false },
+] as const;
 
 export default function ResumeClient() {
-  const [lang, setLang] = useState<Lang>('en');
+  const { lang } = useLanguage();
 
   const data = lang === 'en' ? resumeDataEN : resumeDataTH;
   const labels = resumeLabels[lang];
@@ -25,313 +32,289 @@ export default function ResumeClient() {
   const groupedSkills = groupSkillsByCategory(skills);
   const sortedEducation = education ? sortEducation(education) : [];
 
+  const contacts = [
+    profile.email && { label: profile.email, href: `mailto:${profile.email}` },
+    profile.linkedin && { label: 'LinkedIn', href: profile.linkedin },
+    profile.github && { label: 'GitHub', href: profile.github },
+    { label: 'X', href: 'https://x.com/KasiditWans' },
+  ].filter(Boolean) as { label: string; href: string }[];
+
   return (
-    <main className="min-h-screen bg-linear-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-50">
-      <div className="mx-auto max-w-4xl px-4 py-12">
-        {/* Language Toggle */}
-        <div className="mb-6 flex justify-end">
-          <div className="inline-flex rounded-lg border border-slate-700 p-1">
-            <button
-              onClick={() => setLang('en')}
-              className={`rounded-md px-4 py-2 text-sm font-medium transition-colors ${
-                lang === 'en'
-                  ? 'bg-sky-500 text-white'
-                  : 'text-slate-400 hover:text-white'
-              }`}
+    <main className="min-h-screen overflow-x-hidden bg-black text-white">
+      {/* Top bar */}
+      <header className="fixed inset-x-0 top-3 z-50 px-3">
+        <nav className="mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-full border border-white/10 bg-black/60 py-2 pl-5 pr-2 backdrop-blur-xl">
+          <Link href="/" className="flex items-center gap-2 text-[15px] font-semibold tracking-tight">
+            <span className="grid h-6 w-6 place-items-center rounded-md bg-white text-[11px] font-bold text-black">K</span>
+            kasidit
+            <span className="hidden text-white/35 sm:inline">/ resume</span>
+          </Link>
+          <div className="flex items-center gap-2">
+            <LanguageToggle />
+            <Link
+              href="/"
+              className="hidden rounded-full border border-white/10 px-4 py-1.5 text-sm text-white/70 transition hover:text-white sm:inline-flex"
             >
-              EN
-            </button>
-            <button
-              onClick={() => setLang('th')}
-              className={`rounded-md px-4 py-2 text-sm font-medium transition-colors ${
-                lang === 'th'
-                  ? 'bg-sky-500 text-white'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              TH
-            </button>
+              ← {labels.backToHome}
+            </Link>
           </div>
-        </div>
+        </nav>
+      </header>
 
-        {/* Header */}
-        <header className="mb-10 border-b border-slate-800 pb-8">
-          <h1 className="text-4xl font-bold text-white">{profile.fullName}</h1>
-          <p className="mt-2 text-xl text-sky-400">{profile.title}</p>
+      {/* Hero */}
+      <section className="relative px-4 pb-14 pt-36 md:pt-40">
+        <div className="dot-grid pointer-events-none absolute inset-0" aria-hidden />
+        <div
+          className="pointer-events-none absolute left-1/2 top-20 h-[360px] w-[680px] max-w-full -translate-x-1/2 rounded-full bg-[#2f6bff]/20 blur-[120px]"
+          aria-hidden
+        />
+        <div className="relative mx-auto max-w-6xl">
+          <p className="flex items-center gap-2 text-sm text-white/50">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_10px] shadow-emerald-400" />
+            {profile.location}
+          </p>
+          <h1 className="animate-rise mt-4 text-5xl font-medium leading-[1.02] tracking-[-0.05em] md:text-7xl">
+            {profile.fullName}
+          </h1>
+          <p className="mt-4 text-lg text-[#8fb0ff] md:text-xl">{profile.title}</p>
+          {profile.summary ? (
+            <p className="mt-6 max-w-3xl leading-relaxed text-white/60 md:text-lg">{profile.summary}</p>
+          ) : null}
 
-          {/* Contact Info */}
-          <div className="mt-4 flex flex-wrap gap-4 text-sm text-slate-400">
-            {profile.location && (
-              <span className="flex items-center gap-1">
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                {profile.location}
-              </span>
-            )}
-            {profile.email && (
-              <a href={`mailto:${profile.email}`} className="flex items-center gap-1 hover:text-sky-400">
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                {profile.email}
-              </a>
-            )}
-            {profile.phone && (
-              <a href={`tel:${profile.phone}`} className="flex items-center gap-1 hover:text-sky-400">
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-                {profile.phone}
-              </a>
-            )}
-            {profile.github && (
-              <a href={profile.github} target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:text-sky-400">
-                <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                </svg>
-                GitHub
-              </a>
-            )}
-            {profile.linkedin && (
-              <a href={profile.linkedin} target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:text-sky-400">
-                <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                </svg>
-                LinkedIn
-              </a>
-            )}
-            {profile.website && (
-              <a href={profile.website} target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:text-sky-400">
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-                </svg>
-                Website
-              </a>
-            )}
-          </div>
-
-          {/* Summary */}
-          {profile.summary && (
-            <p className="mt-6 text-slate-300 leading-relaxed">{profile.summary}</p>
-          )}
-
-          {/* Download PDFs — 3 versions */}
-          <div className="mt-6 flex flex-wrap gap-3">
-            {/* EN (2026) */}
-            <a
-              href="/Resume_Kasidit_Wansudon_2026.pdf"
-              download
-              className="inline-flex items-center gap-2 rounded-md bg-sky-500 px-4 py-2 text-sm font-medium text-slate-950 hover:bg-sky-400"
-            >
-              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              {labels.downloadPdf}
-            </a>
-            {/* TH (2026) */}
-            <a
-              href="/Resume_Kasidit_Wansudon_2026_TH.pdf"
-              download
-              className="inline-flex items-center gap-2 rounded-md border border-sky-500 px-4 py-2 text-sm font-medium text-sky-400 hover:bg-sky-500/10"
-            >
-              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              {labels.downloadPdfTh}
-            </a>
-            {/* Legacy */}
-            <a
-              href="/Resume_Kasidit_wansudon.pdf"
-              download
-              className="inline-flex items-center gap-2 rounded-md border border-slate-600 px-4 py-2 text-sm font-medium text-slate-400 hover:border-slate-500 hover:text-slate-300"
-            >
-              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              {labels.downloadPdfLegacy}
-            </a>
-          </div>
-        </header>
-
-        {/* Skills */}
-        <section className="mb-10">
-          <h2 className="mb-6 text-2xl font-bold text-white">{labels.skills}</h2>
-          <div className="grid gap-6 md:grid-cols-2">
-            {Object.entries(groupedSkills).map(([category, categorySkills]) => (
-              <div key={category} className="rounded-xl border border-slate-800 bg-slate-900/50 p-4">
-                <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-sky-400">
-                  {category}
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {categorySkills.map((skill: ResumeSkill) => {
-                    const levelColors: Record<string, string> = {
-                      expert: 'bg-sky-500 text-white',
-                      advanced: 'bg-sky-700 text-white',
-                      intermediate: 'bg-slate-700 text-slate-200',
-                      beginner: 'bg-slate-800 text-slate-400',
-                    };
-                    const levelLabels: Record<string, string> = {
-                      expert: '★★★★',
-                      advanced: '★★★',
-                      intermediate: '★★',
-                      beginner: '★',
-                    };
-                    return (
-                      <div
-                        key={skill.name}
-                        className={`flex items-center gap-2 rounded-full px-3 py-1.5 text-sm ${levelColors[skill.level]}`}
-                      >
-                        <span>{skill.name}</span>
-                        <span className="text-xs opacity-75">{levelLabels[skill.level]}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Experience */}
-        <section className="mb-10">
-          <h2 className="mb-6 text-2xl font-bold text-white">{labels.experience}</h2>
-          <div className="space-y-8">
-            {sortedExperiences.map((exp, index) => (
-              <div key={index} className="relative border-l-2 border-slate-800 pl-6">
-                <div className="absolute -left-[9px] top-0 h-4 w-4 rounded-full border-2 border-sky-500 bg-slate-950" />
-                <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <h3 className="text-lg font-semibold text-white">{exp.role}</h3>
-                  <span className="text-sm text-slate-500">
-                    {formatDateRange(exp.start, exp.end)}
-                    {' · '}
-                    {formatExperienceDuration(exp)}
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            {PDFS.map((pdf) =>
+              pdf.primary ? (
+                <a
+                  key={pdf.href}
+                  href={pdf.href}
+                  download
+                  className="group inline-flex items-center gap-3 rounded-full bg-white py-1.5 pl-6 pr-1.5 text-[15px] font-semibold tracking-tight text-[#0a0b0f] shadow-[0_18px_40px_-18px_rgba(47,107,255,0.85),0_4px_14px_-4px_rgba(0,0,0,0.55)] transition hover:shadow-[0_18px_50px_-12px_rgba(47,107,255,1)]"
+                >
+                  {labels[pdf.key]}
+                  <span className="grid h-10 w-10 place-items-center rounded-full bg-[#2f6bff] text-white transition group-hover:translate-y-0.5">
+                    <DownloadIcon />
                   </span>
-                </div>
-                <p className="mt-1 text-sky-400">
-                  {exp.company}
-                  {exp.location && <span className="text-slate-500"> · {exp.location}</span>}
-                  {exp.isRemote && (
-                    <span className="ml-2 rounded bg-slate-800 px-2 py-0.5 text-xs text-slate-400">
+                </a>
+              ) : (
+                <a
+                  key={pdf.href}
+                  href={pdf.href}
+                  download
+                  className="inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-3.5 text-[15px] font-medium text-white/85 transition hover:border-white/40"
+                >
+                  <DownloadIcon />
+                  {labels[pdf.key]}
+                </a>
+              ),
+            )}
+          </div>
+
+          <nav className="mt-8 flex flex-wrap gap-2" aria-label="Contact">
+            {contacts.map((c) => (
+              <a
+                key={c.href}
+                href={c.href}
+                target={c.href.startsWith('mailto') ? undefined : '_blank'}
+                rel="noreferrer"
+                className="rounded-full border border-white/10 bg-white/[0.03] px-4 py-1.5 text-sm text-white/70 transition hover:border-white/30 hover:text-white"
+              >
+                {c.label}
+              </a>
+            ))}
+          </nav>
+        </div>
+      </section>
+
+      <div className="mx-auto grid max-w-6xl gap-16 px-4 pb-24 pt-10 lg:grid-cols-[1.6fr_1fr]">
+        {/* Experience */}
+        <section>
+          <Eyebrow>{labels.experience}</Eyebrow>
+          <ol className="mt-8 border-l border-white/10">
+            {sortedExperiences.map((exp) => (
+              <li key={`${exp.company}-${exp.role}`} className="relative pb-12 pl-8 last:pb-0">
+                <span
+                  className={`absolute -left-[5px] top-2 h-2.5 w-2.5 rounded-full ${
+                    !exp.end ? 'bg-[#2f6bff] shadow-[0_0_14px] shadow-[#2f6bff]' : 'bg-white/30'
+                  }`}
+                />
+                <p className="text-xs text-white/40">
+                  {formatDateRange(exp.start, exp.end)} · {formatExperienceDuration(exp)}
+                  {exp.location ? ` · ${exp.location}` : ''}
+                </p>
+                <h3 className="mt-2 text-xl font-medium tracking-tight md:text-2xl">{exp.role}</h3>
+                <p className="mt-1 text-white/55">
+                  {exp.companyUrl ? (
+                    <a href={exp.companyUrl} target="_blank" rel="noreferrer" className="hover:text-white">
+                      {exp.company} ↗
+                    </a>
+                  ) : (
+                    exp.company
+                  )}
+                  {exp.isRemote ? (
+                    <span className="ml-2 rounded-full border border-white/10 px-2 py-0.5 text-[11px] text-white/45">
                       {labels.remote}
                     </span>
-                  )}
+                  ) : null}
                 </p>
-                {exp.techStack && exp.techStack.length > 0 && (
-                  <div className="mt-2 flex flex-wrap gap-1">
+                <ul className="mt-4 space-y-2 text-[15px] leading-relaxed text-white/65">
+                  {exp.highlights.map((hl) => (
+                    <li key={hl} className="flex gap-3">
+                      <span className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-white/35" />
+                      {hl}
+                    </li>
+                  ))}
+                </ul>
+                {exp.techStack?.length ? (
+                  <div className="mt-4 flex flex-wrap gap-1.5">
                     {exp.techStack.map((tech) => (
-                      <span key={tech} className="rounded-full bg-slate-800 px-2 py-0.5 text-xs text-slate-300">
+                      <span key={tech} className="rounded-full border border-white/10 px-2.5 py-0.5 text-[11px] text-white/50">
                         {tech}
                       </span>
                     ))}
                   </div>
-                )}
-                <ul className="mt-3 space-y-1 text-sm text-slate-400">
-                  {exp.highlights.map((highlight, i) => (
-                    <li key={i} className="flex gap-2">
-                      <span className="text-sky-500">•</span>
-                      {highlight}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                ) : null}
+              </li>
             ))}
-          </div>
+          </ol>
         </section>
 
-        {/* Education */}
-        {sortedEducation.length > 0 && (
-          <section className="mb-10">
-            <h2 className="mb-6 text-2xl font-bold text-white">{labels.education}</h2>
-            <div className="space-y-4">
-              {sortedEducation.map((edu, index) => (
-                <div key={index} className="rounded-xl border border-slate-800 bg-slate-900/50 p-4">
-                  <div className="flex flex-wrap items-baseline justify-between gap-2">
-                    <h3 className="text-lg font-semibold text-white">{edu.institution}</h3>
-                    <span className="text-sm text-slate-500">
-                      {formatDateRange(edu.start, edu.end)}
-                    </span>
+        {/* Sidebar */}
+        <aside className="space-y-6">
+          <Card>
+            <Eyebrow>{labels.skills}</Eyebrow>
+            <div className="mt-5 space-y-5">
+              {Object.entries(groupedSkills).map(([category, list]) => (
+                <div key={category}>
+                  <p className="text-xs font-medium text-white/40">{category}</p>
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {(list as ResumeSkill[]).map((skill) => (
+                      <span
+                        key={skill.name}
+                        title={skill.level}
+                        className={`rounded-full border px-3 py-1 text-[13px] ${
+                          skill.level === 'expert'
+                            ? 'border-[#2f6bff]/60 bg-[#2f6bff]/15 text-white'
+                            : skill.level === 'advanced'
+                              ? 'border-white/20 text-white/85'
+                              : 'border-white/10 text-white/50'
+                        }`}
+                      >
+                        {skill.name}
+                      </span>
+                    ))}
                   </div>
-                  <p className="mt-1 text-sky-400">
-                    {edu.degree}
-                    {edu.field && ` ${lang === 'en' ? 'in' : ''} ${edu.field}`}
-                  </p>
-                  {edu.gpa && (
-                    <p className="mt-1 text-sm text-slate-400">GPA: {edu.gpa}</p>
-                  )}
                 </div>
               ))}
             </div>
-          </section>
-        )}
+            <div className="mt-5 flex flex-wrap gap-4 border-t border-white/10 pt-4 text-[11px] text-white/45">
+              <Legend className="border-[#2f6bff]/60 bg-[#2f6bff]/15" label="Expert" />
+              <Legend className="border-white/20" label="Advanced" />
+              <Legend className="border-white/10" label="Intermediate+" />
+            </div>
+          </Card>
 
-        {/* Languages */}
-        {languages && languages.length > 0 && (
-          <section className="mb-10">
-            <h2 className="mb-6 text-2xl font-bold text-white">{labels.languages}</h2>
-            <div className="flex flex-wrap gap-4">
-              {languages.map((langItem: { name: string; proficiency: string }) => (
-                <div key={langItem.name} className="rounded-xl border border-slate-800 bg-slate-900/50 px-4 py-3">
-                  <span className="font-medium text-white">{langItem.name}</span>
-                  <span className="ml-2 text-sm text-slate-400">({langItem.proficiency})</span>
+          {sortedEducation.length > 0 ? (
+            <Card>
+              <Eyebrow>{labels.education}</Eyebrow>
+              {sortedEducation.map((edu) => (
+                <div key={edu.institution} className="mt-4">
+                  <p className="font-medium">{edu.institution}</p>
+                  <p className="mt-1 text-sm text-white/55">
+                    {edu.degree}
+                    {edu.field ? ` ${lang === 'en' ? 'in ' : ''}${edu.field}` : ''}
+                  </p>
+                  <p className="mt-1 text-xs text-white/40">
+                    {formatDateRange(edu.start, edu.end)}
+                    {edu.gpa ? ` · GPA ${edu.gpa}` : ''}
+                  </p>
                 </div>
               ))}
-            </div>
-          </section>
-        )}
+            </Card>
+          ) : null}
+
+          {languages?.length ? (
+            <Card>
+              <Eyebrow>{labels.languages}</Eyebrow>
+              <ul className="mt-4 space-y-2">
+                {languages.map((l) => (
+                  <li key={l.name} className="flex items-baseline justify-between gap-4 text-sm">
+                    <span className="font-medium">{l.name}</span>
+                    <span className="text-right text-white/45">{l.proficiency}</span>
+                  </li>
+                ))}
+              </ul>
+            </Card>
+          ) : null}
+        </aside>
 
         {/* Projects */}
-        {projects && projects.length > 0 && (
-          <section className="mb-10">
-            <h2 className="mb-6 text-2xl font-bold text-white">{labels.projects}</h2>
-            <div className="space-y-4">
-              {projects.map((project: ResumeProject, index: number) => (
-                <div key={index} className="rounded-xl border border-slate-800 bg-slate-900/50 p-4">
-                  <div className="flex items-center gap-3">
-                    <h3 className="text-lg font-semibold text-white">{project.name}</h3>
-                    {project.url && (
-                      <a
-                        href={project.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-sky-400 hover:text-sky-300"
-                      >
-                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                        </svg>
-                      </a>
-                    )}
-                  </div>
-                  <p className="mt-2 text-sm text-slate-400">{project.description}</p>
-                  {project.techStack.length > 0 && (
-                    <div className="mt-2 flex flex-wrap gap-1">
-                      {project.techStack.map((tech: string) => (
-                        <span key={tech} className="rounded-full bg-slate-800 px-2 py-0.5 text-xs text-slate-300">
+        {projects?.length ? (
+          <section className="lg:col-span-2">
+            <Eyebrow>{labels.projects}</Eyebrow>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {projects.map((p: ResumeProject) => (
+                <a
+                  key={p.name}
+                  href={p.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group flex flex-col rounded-3xl border border-white/10 bg-[#0a0b0f] p-6 transition hover:-translate-y-0.5 hover:border-[#2f6bff]/50"
+                >
+                  <h3 className="font-mono text-[15px] font-medium">{p.name}</h3>
+                  <p className="mt-2 flex-1 text-sm leading-relaxed text-white/55">{p.description}</p>
+                  <div className="mt-5 flex items-center justify-between gap-3">
+                    <div className="flex flex-wrap gap-1.5">
+                      {p.techStack.map((tech) => (
+                        <span key={tech} className="rounded-full border border-white/10 px-2.5 py-0.5 text-[11px] text-white/50">
                           {tech}
                         </span>
                       ))}
                     </div>
-                  )}
-                </div>
+                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-white/15 text-white/60 transition group-hover:border-[#2f6bff] group-hover:bg-[#2f6bff] group-hover:text-white">
+                      ↗
+                    </span>
+                  </div>
+                </a>
               ))}
             </div>
           </section>
-        )}
-
-        {/* Back to Home */}
-        <div className="mt-12 text-center">
-          <a
-            href="/"
-            className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-sky-400"
-          >
-            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            {labels.backToHome}
-          </a>
-        </div>
+        ) : null}
       </div>
+
+      <footer className="border-t border-white/[0.06] px-4 py-10 text-center text-sm text-white/45">
+        <Link href="/" className="transition hover:text-white">
+          ← {labels.backToHome}
+        </Link>
+        <span className="mx-3">·</span>
+        <a href="/Resume_Kasidit_wansudon.pdf" download className="transition hover:text-white">
+          {labels.downloadPdfLegacy}
+        </a>
+      </footer>
     </main>
+  );
+}
+
+function Eyebrow({ children }: { children: React.ReactNode }) {
+  return <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#8fb0ff]">{children}</p>;
+}
+
+function Card({ children }: { children: React.ReactNode }) {
+  return <div className="rounded-3xl border border-white/10 bg-[#0a0b0f] p-6">{children}</div>;
+}
+
+function Legend({ className, label }: { className: string; label: string }) {
+  return (
+    <span className="inline-flex items-center gap-1.5">
+      <span className={`h-2.5 w-2.5 rounded-full border ${className}`} />
+      {label}
+    </span>
+  );
+}
+
+function DownloadIcon() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+      <path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }

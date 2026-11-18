@@ -1,5 +1,5 @@
 // Resume data for Kasidit Wansudon - Bilingual (EN/TH)
-// Updated April 2026 — aligned with PDF resume
+// Updated November 2026 — web resume (PDFs may lag behind)
 import { ResumeData } from '@/lib/resumeUtils';
 
 // English version
@@ -12,12 +12,11 @@ export const resumeDataEN: ResumeData = {
     focusAreas: ['Laravel', 'Vue.js', 'Go', 'Flutter'],
     currentCompany: 'Pos Sefi Group Co., Ltd. (OPPO) / OWAY IT',
     email: 'kasidit.wans@gmail.com',
-    phone: '+66 63-790-2362',
     website: 'https://kasidit-wans.com',
     github: 'https://github.com/kasidit-wansudon',
     linkedin: 'https://linkedin.com/in/kasidit-wansudon-939577275',
     summary:
-      'Full-Stack Developer and Project Manager with 4+ years of experience building enterprise systems including WMS, HR platforms, POS, and approval workflows. Leading a cross-functional team of 5 at OPPO Mexico. Expert in Laravel, Vue.js, Go, and Flutter with strong cloud infrastructure skills (AWS, Docker, Kubernetes). Passionate about system architecture, AI integration, and scalable software.',
+      'Full-Stack Developer and Project Manager with 4+ years of experience building enterprise systems — WMS, HR platforms, POS, and approval workflows. Leading a cross-functional team of 5 at OPPO Mexico, where I also own cloud infrastructure, security hardening, and the 2026 move to Alibaba Cloud. Creator of Kasidit, an open-source discipline framework for AI coding agents, and founder of Kasion, a studio building AI products for SEA. Expert in Laravel, Vue.js, Go, and Flutter.',
   },
   experiences: [
     {
@@ -27,7 +26,7 @@ export const resumeDataEN: ResumeData = {
       start: '2024-04',
       end: undefined,
       impactScore: 10,
-      techStack: ['Vue.js', 'Laravel', 'Zend', 'Flutter', 'MySQL', 'DingTalk API', 'Docker', 'PM2', 'Nginx'],
+      techStack: ['Vue.js', 'Laravel', 'Zend', 'Flutter', 'MySQL', 'DingTalk API', 'Docker', 'Alibaba Cloud', 'AWS', 'Nginx'],
       highlights: [
         'Lead a cross-functional team of 5 (2 devs, 1 QA, 1 helpdesk, 1 infra) supporting enterprise systems',
         'Developed and maintained Sellin, Sellout, HR, and AppHR systems serving hundreds of daily users',
@@ -35,6 +34,27 @@ export const resumeDataEN: ResumeData = {
         'Integrated DingTalk API for webhook-triggered middleware and automated notifications',
         'Migrated legacy Zend Framework 1.12 to Laravel 8+, improving maintainability and test coverage',
         'Designed and optimized MySQL schemas for warehouse operations; reduced key query latency by 40%+',
+        'Led the 2026 migration of production workloads from AWS to Alibaba Cloud ECS — new Linux hosts, PHP/MySQL/Bun stack, zero data loss',
+        'Ran an application security audit across internal systems and shipped fixes repo by repo, including pentest findings on customer-facing apps',
+        'Locked down server access with a VPN-only admin network (OTP) and per-engineer SSH accounts',
+        'Moved the team to AI-assisted delivery using my Kasidit framework: shared rules, specialist agents, and reusable runbooks',
+      ],
+    },
+    {
+      role: 'Founder & Open-Source Maintainer',
+      company: 'Kasion · Kasidit framework',
+      location: 'Remote',
+      start: '2026-04',
+      end: undefined,
+      impactScore: 9,
+      isRemote: true,
+      companyUrl: 'https://kasion.dev',
+      techStack: ['Claude Code', 'TypeScript', 'Next.js', 'Cloudflare Workers', 'D1', 'Vue + Vant', 'Laravel'],
+      highlights: [
+        'Built Kasidit, an MIT-licensed discipline framework for Claude Code: 8 specialist agents + 1 orchestrator, runtime hooks, checklists, and reusable runbooks',
+        'Benchmarked with the official SWE-bench Docker harness; shipped through v0.9 with public docs and an installer at kasi.kasion.dev',
+        'Founded Kasion, a studio shipping AI products for SEA — KasionL1 career engine, Phlik Career, and app prototypes on a shared starter kit',
+        'Run every product on Cloudflare Workers + D1 with Firebase auth, deployed from a single CLI workflow',
       ],
     },
     {
@@ -88,7 +108,12 @@ export const resumeDataEN: ResumeData = {
     { name: 'REST API', level: 'advanced', years: 3, category: 'Backend' },
     { name: 'Zend Framework', level: 'advanced', years: 1, category: 'Backend' },
 
+    { name: 'Claude Code / AI agents', level: 'advanced', years: 1, category: 'AI' },
+    { name: 'Cloudflare Workers', level: 'advanced', years: 1, category: 'DevOps' },
+
     // Intermediate - Good working knowledge
+    { name: 'Alibaba Cloud', level: 'intermediate', years: 1, category: 'DevOps' },
+    { name: 'Bun', level: 'intermediate', years: 1, category: 'Backend' },
     { name: 'Next.js', level: 'intermediate', years: 1, category: 'Frontend' },
     { name: 'NestJS', level: 'intermediate', years: 1, category: 'Backend' },
     { name: 'Kubernetes', level: 'intermediate', years: 1, category: 'DevOps' },
@@ -122,6 +147,12 @@ export const resumeDataEN: ResumeData = {
     { name: 'English', proficiency: 'Professional (Speak, Listen, Read, Write)' },
   ],
   projects: [
+    {
+      name: 'kasidit',
+      description: 'Discipline framework for Claude Code — specialist agents, orchestrator, hooks, checklists, runbooks. MIT.',
+      url: 'https://github.com/kasidit-wansudon/kasidit',
+      techStack: ['Claude Code', 'TypeScript', 'Shell'],
+    },
     {
       name: 'microservices-ecommerce',
       description: 'Cloud-native e-commerce — saga pattern, event sourcing, distributed tracing',
@@ -171,12 +202,11 @@ export const resumeDataTH: ResumeData = {
     focusAreas: ['Laravel', 'Vue.js', 'Go', 'Flutter'],
     currentCompany: 'บริษัท โพส เซฟี่ กรุ๊ป จำกัด (OPPO) / OWAY IT',
     email: 'kasidit.wans@gmail.com',
-    phone: '+66 63-790-2362',
     website: 'https://kasidit-wans.com',
     github: 'https://github.com/kasidit-wansudon',
     linkedin: 'https://linkedin.com/in/kasidit-wansudon-939577275',
     summary:
-      'Full-Stack Developer และ Project Manager ประสบการณ์กว่า 4 ปี สร้างระบบองค์กรรวมถึง WMS, HR Platform, POS และ Approval Workflow นำทีม 5 คนที่ OPPO เม็กซิโก เชี่ยวชาญ Laravel, Vue.js, Go และ Flutter มีทักษะ Cloud Infrastructure (AWS, Docker, Kubernetes) มุ่งเน้น System Architecture, AI Integration และการพัฒนาซอฟต์แวร์ที่ขยายตัวได้',
+      'Full-Stack Developer และ Project Manager ประสบการณ์กว่า 4 ปี สร้างระบบองค์กรรวมถึง WMS, HR Platform, POS และ Approval Workflow นำทีม 5 คนที่ OPPO เม็กซิโก ดูแล Cloud Infrastructure, Security Hardening และการย้ายระบบไป Alibaba Cloud ในปี 2026 ผู้สร้าง Kasidit — open-source framework คุมวินัยของ AI coding agent และผู้ก่อตั้ง Kasion สตูดิโอสร้าง AI product สำหรับตลาด SEA เชี่ยวชาญ Laravel, Vue.js, Go และ Flutter',
   },
   experiences: [
     {
@@ -186,7 +216,7 @@ export const resumeDataTH: ResumeData = {
       start: '2024-04',
       end: undefined,
       impactScore: 10,
-      techStack: ['Vue.js', 'Laravel', 'Zend', 'Flutter', 'MySQL', 'DingTalk API', 'Docker', 'PM2', 'Nginx'],
+      techStack: ['Vue.js', 'Laravel', 'Zend', 'Flutter', 'MySQL', 'DingTalk API', 'Docker', 'Alibaba Cloud', 'AWS', 'Nginx'],
       highlights: [
         'นำทีม 5 คน (2 dev, 1 QA, 1 helpdesk, 1 infra) ดูแลระบบองค์กรทั้งหมด',
         'พัฒนาและดูแลระบบ Sellin, Sellout, HR และ AppHR ที่มีผู้ใช้หลายร้อยคนต่อวัน',
@@ -194,6 +224,27 @@ export const resumeDataTH: ResumeData = {
         'เชื่อมต่อ DingTalk API สำหรับ Webhook Middleware และ Notification อัตโนมัติ',
         'Migrate ระบบจาก Zend Framework 1.12 สู่ Laravel 8+ เพิ่ม Maintainability',
         'ออกแบบและ Optimize MySQL Schema สำหรับ Warehouse Operations ลด Query Latency 40%+',
+        'นำการย้ายระบบ production จาก AWS ไป Alibaba Cloud ECS ในปี 2026 — ตั้ง Linux host ใหม่ พร้อม PHP/MySQL/Bun โดยไม่เสียข้อมูล',
+        'ทำ Security Audit ระบบภายในทั้งหมด และแก้ช่องโหว่ทีละ repo รวมถึงผล Pentest ของแอปที่ลูกค้าใช้',
+        'ปิดการเข้าถึง Server ให้ผ่าน VPN (OTP) เท่านั้น พร้อมแยกบัญชี SSH รายคน',
+        'ปรับทีมให้ทำงานแบบ AI-assisted ด้วย Kasidit framework ของผมเอง: กฎกลาง, specialist agents และ runbook ที่ใช้ซ้ำได้',
+      ],
+    },
+    {
+      role: 'ผู้ก่อตั้ง & ผู้ดูแล Open Source',
+      company: 'Kasion · Kasidit framework',
+      location: 'ทำงานระยะไกล',
+      start: '2026-04',
+      end: undefined,
+      impactScore: 9,
+      isRemote: true,
+      companyUrl: 'https://kasion.dev',
+      techStack: ['Claude Code', 'TypeScript', 'Next.js', 'Cloudflare Workers', 'D1', 'Vue + Vant', 'Laravel'],
+      highlights: [
+        'สร้าง Kasidit — framework คุมวินัยของ Claude Code แบบ MIT: 8 specialist agents + 1 orchestrator, runtime hooks, checklists และ runbook ที่ใช้ซ้ำได้',
+        'วัดผลด้วย SWE-bench Docker harness อย่างเป็นทางการ ออกถึง v0.9 พร้อมเอกสารและตัวติดตั้งที่ kasi.kasion.dev',
+        'ก่อตั้ง Kasion สตูดิโอสร้าง AI product สำหรับ SEA — KasionL1 career engine, Phlik Career และต้นแบบแอปบน starter kit เดียวกัน',
+        'รันทุกโปรดักต์บน Cloudflare Workers + D1 พร้อม Firebase auth และ deploy จาก CLI เดียว',
       ],
     },
     {
@@ -244,6 +295,12 @@ export const resumeDataTH: ResumeData = {
     { name: 'อังกฤษ', proficiency: 'ระดับทำงาน (พูด ฟัง อ่าน เขียน)' },
   ],
   projects: [
+    {
+      name: 'kasidit',
+      description: 'Discipline framework for Claude Code — specialist agents, orchestrator, hooks, checklists, runbooks. MIT.',
+      url: 'https://github.com/kasidit-wansudon/kasidit',
+      techStack: ['Claude Code', 'TypeScript', 'Shell'],
+    },
     {
       name: 'microservices-ecommerce',
       description: 'Cloud-native e-commerce — saga pattern, event sourcing, distributed tracing',
