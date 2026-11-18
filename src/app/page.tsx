@@ -201,8 +201,8 @@ export default function Home() {
                 <a
                   key={q.url}
                   href={q.url}
-                  target="_blank"
-                  rel="noreferrer"
+                  target={q.url.startsWith('http') ? '_blank' : undefined}
+                  rel={q.url.startsWith('http') ? 'noreferrer' : undefined}
                   className="group relative flex items-center justify-between gap-4 overflow-hidden rounded-3xl border border-[#2f6bff]/50 bg-linear-to-br from-[#2f6bff]/20 via-[#0a0b0f] to-[#0a0b0f] p-6 shadow-[0_20px_60px_-30px_#2f6bff] transition hover:-translate-y-0.5 hover:border-[#8fb0ff] hover:shadow-[0_24px_70px_-24px_#2f6bff] md:p-8"
                 >
                   <span className="dot-grid pointer-events-none absolute inset-0 opacity-40" aria-hidden />
@@ -212,7 +212,7 @@ export default function Home() {
                     </span>
                     <span className="mt-3 block text-2xl font-medium tracking-[-0.03em] md:text-3xl">{q.title}</span>
                     <span className="mt-1 block text-sm text-white/60">{t(q.note, lang)}</span>
-                    <span className="mt-3 block font-mono text-xs text-[#8fb0ff]">{q.url.replace(/^https?:\/\//, '')}</span>
+                    <span className="mt-3 block font-mono text-xs text-[#8fb0ff]">{q.url.startsWith('/') ? `kasidit-wans.com${q.url}` : q.url.replace(/^https?:\/\//, '')}</span>
                   </span>
                   <span className="relative grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white text-black transition group-hover:rotate-45">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">

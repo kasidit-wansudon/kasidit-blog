@@ -230,6 +230,8 @@ export const quickLinks: {
   /** Highlighted links render as large glowing cards at the top. */
   highlight?: boolean;
 }[] = [
+  { title: 'Blog', url: '/blog', group: 'kasidit-wans', highlight: true, note: { th: 'บทความรายสัปดาห์ เรื่อง AI, coding และการบริหารทีม', en: 'Weekly posts on AI, coding and leading dev teams' } },
+  { title: 'Guestbook', url: '/guestbook', group: 'kasidit-wans', highlight: true, note: { th: 'ฝากข้อความ ทักทาย หรือถามคำถาม', en: 'Leave a message, say hi or ask a question' } },
   { title: 'Tools Hub', url: 'https://tools.kasidit-wans.com', group: 'kasidit-wans', highlight: true, note: { th: 'รวมเครื่องมือทั้งหมด 13 ตัว ค้นได้ด้วย ⌘K', en: 'All 13 tools in one hub — search with ⌘K' } },
   { title: 'Kasidit', url: 'https://kasi.kasion.dev', group: 'kasion', highlight: true, note: { th: 'AI coding framework แบบ open source สำหรับ Claude Code', en: 'Open-source AI coding framework for Claude Code' } },
   { title: 'Sales Timing', url: 'https://pc.kasidit-wans.com', group: 'kasidit-wans', note: { th: 'จับเวลาการขาย', en: 'Sales timing & pace' } },

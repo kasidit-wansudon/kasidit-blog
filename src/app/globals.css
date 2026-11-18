@@ -110,3 +110,27 @@ body {
 .btn-lux:hover .btn-lux-icon-back { transform: translateX(-3px); }
 .btn-lux:hover .btn-lux-icon-down,
 .btn-lux:hover .btn-lux-icon-download { transform: translateY(2px); }
+
+/* Blog article typography */
+.article { font-size: 17px; line-height: 1.85; color: rgba(255, 255, 255, 0.78); }
+.article > * + * { margin-top: 1.15em; }
+.article h2 { margin-top: 2.2em; font-size: 1.6rem; line-height: 1.3; font-weight: 500; letter-spacing: -0.02em; color: #fff; scroll-margin-top: 7rem; }
+.article h3 { margin-top: 1.8em; font-size: 1.22rem; font-weight: 500; color: #fff; scroll-margin-top: 7rem; }
+.article .heading-anchor { color: inherit; text-decoration: none; }
+.article .heading-anchor:hover::after { content: ' #'; color: #8fb0ff; }
+.article a:not(.heading-anchor) { color: #b9ccff; text-decoration: underline; text-decoration-color: rgba(143, 176, 255, 0.4); text-underline-offset: 3px; }
+.article a:not(.heading-anchor):hover { color: #fff; }
+.article strong { color: #fff; font-weight: 600; }
+.article ul, .article ol { padding-left: 1.4em; }
+.article ul { list-style: disc; }
+.article ol { list-style: decimal; }
+.article li + li { margin-top: 0.4em; }
+.article li::marker { color: rgba(143, 176, 255, 0.7); }
+.article blockquote { border-left: 2px solid #2f6bff; padding: 0.2em 0 0.2em 1.1em; color: rgba(255, 255, 255, 0.65); }
+.article hr { border: 0; height: 1px; background: rgba(255, 255, 255, 0.1); margin: 2.5em 0; }
+.article :not(pre) > code { font-family: var(--font-mono, ui-monospace), monospace; font-size: 0.88em; padding: 0.15em 0.4em; border-radius: 6px; background: rgba(255, 255, 255, 0.07); color: #e6ecff; }
+.article pre { overflow-x: auto; padding: 1.1em 1.25em; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.08); background: #0a0b0f; font-size: 13.5px; line-height: 1.7; }
+.article pre code { font-family: ui-monospace, 'SF Mono', Menlo, monospace; color: #d6def5; }
+.article table { width: 100%; border-collapse: collapse; font-size: 15px; display: block; overflow-x: auto; }
+.article th, .article td { border: 1px solid rgba(255, 255, 255, 0.1); padding: 0.55em 0.8em; text-align: left; vertical-align: top; }
+.article th { background: rgba(255, 255, 255, 0.04); color: #fff; font-weight: 500; }
