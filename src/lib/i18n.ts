@@ -138,6 +138,12 @@ export const ui = {
     statTeam: { th: 'คนในทีมที่ผมนำ', en: 'people on the team I lead' } as Dict,
     statRepos: { th: 'repo บน GitHub', en: 'public repos on GitHub' } as Dict,
     statBench: { th: 'SWE-bench resolved (vs 63% baseline)', en: 'SWE-bench resolved (vs 63% baseline)' } as Dict,
+    linksEyebrow: { th: 'ลิงก์ด่วน', en: 'Quick links' } as Dict,
+    linksTitle: { th: 'ไปที่ระบบอื่นของผม', en: 'Jump to my other systems' } as Dict,
+    linksLead: {
+      th: 'ทุกเว็บและเครื่องมือที่ผมดูแล รวมไว้ที่เดียว กดแล้วเปิดแท็บใหม่',
+      en: 'Every site and tool I run, in one place. Opens in a new tab.',
+    } as Dict,
     contactEyebrow: { th: 'ติดต่อ', en: 'Contact' } as Dict,
     contactTitle: {
       th: 'มีระบบที่อยากสร้าง หรืออยากคุยเรื่อง agent team?',
@@ -149,6 +155,27 @@ export const ui = {
     } as Dict,
   },
 };
+
+/** Quick-link directory shown on the home page (other sites/systems). */
+export const quickLinks: {
+  title: string;
+  url: string;
+  note: Dict;
+  group: 'kasidit-wans' | 'kasion';
+  /** Highlighted links render as large glowing cards at the top. */
+  highlight?: boolean;
+}[] = [
+  { title: 'Tools Hub', url: 'https://tools.kasidit-wans.com', group: 'kasidit-wans', highlight: true, note: { th: 'รวมเครื่องมือทั้งหมด 13 ตัว ค้นได้ด้วย ⌘K', en: 'All 13 tools in one hub — search with ⌘K' } },
+  { title: 'Kasidit', url: 'https://kasi.kasion.dev', group: 'kasion', highlight: true, note: { th: 'AI coding framework แบบ open source สำหรับ Claude Code', en: 'Open-source AI coding framework for Claude Code' } },
+  { title: 'Sales Timing', url: 'https://pc.kasidit-wans.com', group: 'kasidit-wans', note: { th: 'จับเวลาการขาย', en: 'Sales timing & pace' } },
+  { title: 'Control Tower', url: 'https://stock.kasidit-wans.com', group: 'kasidit-wans', note: { th: 'สต็อกโรงอาหาร', en: 'Cafeteria stock planning' } },
+  { title: 'Kasion', url: 'https://kasion.dev', group: 'kasion', note: { th: 'สตูดิโอหลัก', en: 'Studio home' } },
+  { title: 'Money', url: 'https://money.kasion.dev', group: 'kasion', note: { th: 'จัดการเงินส่วนตัว (ต้องล็อกอิน)', en: 'Personal finance (sign-in)' } },
+  { title: 'KasionL1', url: 'https://l1.kasion.dev', group: 'kasion', note: { th: 'Career AI engine', en: 'Career AI engine' } },
+  { title: 'Phlik Career', url: 'https://phlik.kasion.dev', group: 'kasion', note: { th: 'AI โค้ชอาชีพ', en: 'AI career coach' } },
+  { title: 'QR Kasion', url: 'https://qr.kasion.dev', group: 'kasion', note: { th: 'IMEI → บาร์โค้ด', en: 'IMEI → barcode' } },
+  { title: 'Oak Docs', url: 'https://kasidit-wansudon.github.io/oak-docs', group: 'kasidit-wans', note: { th: 'เอกสารเทคนิค', en: 'Technical docs' } },
+];
 
 export const productsContent = [
   {
@@ -198,7 +225,7 @@ export const productsContent = [
       th: 'หน้ารวมเครื่องมือ + workspace ของผม สำหรับ docs, internal tools, warehouse, และ reporting แบบ one-stop.',
       en: 'My personal command point — docs, internal tools, warehouse, and reporting destinations in one front door.',
     } as Dict,
-    url: 'https://kasidit-wans.com/',
+    url: 'https://tools.kasidit-wans.com/',
     tags: ['Hub', 'Vite', 'React'],
   },
   {

@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { LanguageToggle } from '@/components/LanguageToggle';
 import { useLanguage } from '@/components/LanguageProvider';
 import { resumeDataEN } from '@/data/resume';
-import { productsContent, t, ui } from '@/lib/i18n';
+import { productsContent, quickLinks, t, ui } from '@/lib/i18n';
 import {
   formatDateRange,
   formatExperienceDuration,
@@ -38,6 +38,7 @@ const NAV = [
   { href: '/resume', label: { th: 'Resume', en: 'Resume' } },
   { href: '/guestbook', label: { th: 'สมุดเยี่ยม', en: 'Guestbook' } },
   { href: '/cascade', label: { th: 'Cascade', en: 'Cascade' } },
+  { href: 'https://tools.kasidit-wans.com', label: { th: 'Tools ↗', en: 'Tools ↗' } },
 ];
 
 export default function Home() {
@@ -188,6 +189,63 @@ export default function Home() {
       </section>
 
       <div className="mx-auto flex max-w-6xl flex-col gap-24 px-4 py-24">
+        {/* Quick links to other systems */}
+        <section id="links" className="scroll-mt-28">
+          <SectionHead
+            eyebrow={t(h.linksEyebrow, lang)}
+            title={t(h.linksTitle, lang)}
+            lead={t(h.linksLead, lang)}
+          />
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            {quickLinks
+              .filter((q) => q.highlight)
+              .map((q) => (
+                <a
+                  key={q.url}
+                  href={q.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group relative flex items-center justify-between gap-4 overflow-hidden rounded-3xl border border-[#2f6bff]/50 bg-linear-to-br from-[#2f6bff]/20 via-[#0a0b0f] to-[#0a0b0f] p-6 shadow-[0_20px_60px_-30px_#2f6bff] transition hover:-translate-y-0.5 hover:border-[#8fb0ff] hover:shadow-[0_24px_70px_-24px_#2f6bff] md:p-8"
+                >
+                  <span className="dot-grid pointer-events-none absolute inset-0 opacity-40" aria-hidden />
+                  <span className="relative min-w-0">
+                    <span className="inline-flex items-center gap-2 rounded-full border border-[#2f6bff]/50 bg-[#2f6bff]/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#b9ccff]">
+                      ★ {lang === 'th' ? 'แนะนำ' : 'Featured'}
+                    </span>
+                    <span className="mt-3 block text-2xl font-medium tracking-[-0.03em] md:text-3xl">{q.title}</span>
+                    <span className="mt-1 block text-sm text-white/60">{t(q.note, lang)}</span>
+                    <span className="mt-3 block font-mono text-xs text-[#8fb0ff]">{q.url.replace(/^https?:\/\//, '')}</span>
+                  </span>
+                  <span className="relative grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white text-black transition group-hover:rotate-45">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
+                      <path d="M7 17 17 7M9 7h8v8" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                </a>
+              ))}
+          </div>
+          <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
+            {quickLinks.filter((q) => !q.highlight).map((q) => (
+              <a
+                key={q.url}
+                href={q.url}
+                target="_blank"
+                rel="noreferrer"
+                className="group flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-[#0a0b0f] px-4 py-3.5 transition hover:border-[#2f6bff]/60 hover:bg-[#2f6bff]/[0.06]"
+              >
+                <span className="min-w-0">
+                  <span className="block truncate text-[15px] font-medium tracking-tight">{q.title}</span>
+                  <span className="block truncate text-xs text-white/45">{t(q.note, lang)}</span>
+                  <span className="mt-1 block truncate font-mono text-[11px] text-white/30 group-hover:text-[#8fb0ff]">
+                    {q.url.replace(/^https?:\/\//, '')}
+                  </span>
+                </span>
+                <ArrowDot />
+              </a>
+            ))}
+          </div>
+        </section>
+
         {/* Two pillars */}
         <section className="grid gap-4 md:grid-cols-2">
           <Pillar
