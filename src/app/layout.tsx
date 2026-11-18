@@ -1,13 +1,17 @@
 // src/app/layout.tsx
 // Comment in English
 import type { Metadata } from 'next';
+import { Inter, Noto_Sans_Thai } from 'next/font/google';
 import { LanguageProvider } from '@/components/LanguageProvider';
 import './globals.css';
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
+const notoThai = Noto_Sans_Thai({ subsets: ['thai'], variable: '--font-thai', display: 'swap' });
 
 export const metadata: Metadata = {
   title: 'Kasidit Wansudon | Full‑stack Developer',
   description:
-    'Kasidit Wansudon – Full‑stack developer in Bangkok. Sharing blog posts, real-world projects, and a guestbook for feedback.',
+    'Kasidit Wansudon – Full‑stack developer & PM based in Mexico City. Sharing blog posts, real-world projects, and a guestbook for feedback.',
   metadataBase: new URL('https://kasidit-wans.com'),
   alternates: {
     canonical: 'https://kasidit-wans.com',
@@ -60,7 +64,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="th">
+    <html lang="th" className={`${inter.variable} ${notoThai.variable}`}>
       <body className="bg-slate-950 text-slate-50">
         <LanguageProvider>{children}</LanguageProvider>
       </body>

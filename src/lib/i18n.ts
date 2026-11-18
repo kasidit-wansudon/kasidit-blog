@@ -98,6 +98,56 @@ export const ui = {
   toggle: {
     label: { th: 'ภาษา', en: 'Language' } as Dict,
   },
+  home: {
+    badge: {
+      th: 'Full-stack · PM · ผู้สร้าง Kasidit framework',
+      en: 'Full-stack · PM · Builder of Kasidit framework',
+    } as Dict,
+    headline1: { th: 'สร้างระบบที่ทีม', en: 'Building systems' } as Dict,
+    headline2: { th: 'ใช้งานได้จริงทุกวัน', en: 'teams actually ship' } as Dict,
+    sub: {
+      th: 'Full-stack developer และ project manager ที่ OPPO Mexico — WMS, HR, POS, approval workflow ไปจนถึง AI agent framework แบบ open source',
+      en: 'Full-stack developer & project manager at OPPO Mexico — WMS, HR, POS and approval workflows, plus an open-source AI agent framework.',
+    } as Dict,
+    ctaPrimary: { th: "ติดต่อผม", en: "Let's link up" } as Dict,
+    ctaSecondary: { th: 'ดูผลงาน', en: 'See my work' } as Dict,
+    stackNote: {
+      th: 'Stack ที่ใช้ทำงานจริงใน production',
+      en: 'The stack I ship to production with',
+    } as Dict,
+    pillarDayEyebrow: { th: 'งานประจำ', en: 'Day job' } as Dict,
+    pillarDayTitle: {
+      th: 'นำทีม IT 5 คน ดูแลระบบองค์กรของ OPPO Mexico',
+      en: 'Leading a 5-person IT team behind OPPO Mexico’s enterprise systems',
+    } as Dict,
+    pillarDayBody: {
+      th: 'Sellin, Sellout, HR, WMS และ approval หลายขั้น ใช้งานทุกวันโดยผู้ใช้หลายร้อยคน ย้าย Zend 1 เป็น Laravel และจูน MySQL ให้เร็วขึ้น 40%+',
+      en: 'Sellin, Sellout, HR, WMS and multi-level approvals used daily by hundreds of people. Migrated Zend 1 to Laravel and cut key query latency by 40%+.',
+    } as Dict,
+    pillarOssEyebrow: { th: 'Open source', en: 'Open source' } as Dict,
+    pillarOssTitle: {
+      th: 'Kasidit — framework ให้ AI เขียนโค้ดแบบมีวินัย',
+      en: 'Kasidit — a discipline framework for AI coding',
+    } as Dict,
+    pillarOssBody: {
+      th: '8 specialist agents + 1 orchestrator ปฏิเสธงานที่ scope ไม่ชัด เก็บ runbook ให้ทีมใช้ซ้ำ ใช้คุมงาน dev ของทีมจริงทุกวัน',
+      en: '8 specialist agents and 1 orchestrator that refuse vague scope and leave reusable runbooks. It runs my team’s dev work every day.',
+    } as Dict,
+    learnMore: { th: 'ดูเพิ่ม', en: 'Learn more' } as Dict,
+    statYears: { th: 'ปีที่สร้างระบบ production', en: 'years shipping production systems' } as Dict,
+    statTeam: { th: 'คนในทีมที่ผมนำ', en: 'people on the team I lead' } as Dict,
+    statRepos: { th: 'repo บน GitHub', en: 'public repos on GitHub' } as Dict,
+    statBench: { th: 'SWE-bench resolved (vs 63% baseline)', en: 'SWE-bench resolved (vs 63% baseline)' } as Dict,
+    contactEyebrow: { th: 'ติดต่อ', en: 'Contact' } as Dict,
+    contactTitle: {
+      th: 'มีระบบที่อยากสร้าง หรืออยากคุยเรื่อง agent team?',
+      en: 'Building something, or running agent teams too?',
+    } as Dict,
+    contactBody: {
+      th: 'ตอนนี้อยู่ Mexico City ทำงานกับทีมข้ามประเทศได้ ทักมาทางอีเมล X หรือ LinkedIn',
+      en: 'Based in Mexico City and used to working across time zones. Reach out by email, X or LinkedIn.',
+    } as Dict,
+  },
 };
 
 export const productsContent = [
