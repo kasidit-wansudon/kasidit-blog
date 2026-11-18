@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { LanguageToggle } from '@/components/LanguageToggle';
 import { useLanguage } from '@/components/LanguageProvider';
 import { resumeDataEN, resumeDataTH, resumeLabels } from '@/data/resume';
+import { storyChapters, t } from '@/lib/i18n';
 import {
   formatDateRange,
   formatExperienceDuration,
@@ -176,6 +177,19 @@ export default function ResumeClient() {
               </li>
             ))}
           </ol>
+          {/* Small origin note: how far it has come */}
+          <div className="mt-10 rounded-2xl border border-dashed border-white/15 px-5 py-4">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/40">
+              📍 {lang === 'th' ? 'จุดเริ่มต้น' : 'Where it all started'} · {storyChapters[0].start.slice(0, 4)} ·{' '}
+              {t(storyChapters[0].place, lang)}
+            </p>
+            <p className="mt-1.5 text-sm text-white/60">
+              {t(storyChapters[0].role, lang)} →{' '}
+              <span className="text-[#b9ccff]">
+                {profile.title.split(' · ')[0]} {lang === 'th' ? `ในอีก ${profile.yearsOfExperience} ปีต่อมา` : `${profile.yearsOfExperience} years later`}
+              </span>
+            </p>
+          </div>
         </section>
 
         {/* Sidebar */}

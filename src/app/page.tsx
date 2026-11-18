@@ -45,6 +45,8 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { profile, skills } = resumeDataEN;
   const topSkills = getTopSkills(skills, 16);
+  const storyOrigin = storyChapters[0];
+  const storyLatest = storyChapters.slice(1).reverse();
   const h = ui.home;
 
   return (
@@ -312,7 +314,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Story: first job → now */}
+        {/* Story: latest first, with a small "where it started" note at the bottom */}
         <section id="story" className="scroll-mt-28">
           <SectionHead
             eyebrow={t(h.storyEyebrow, lang)}
@@ -324,13 +326,26 @@ export default function Home() {
               </Link>
             }
           />
-          <ol className="relative mt-12">
+
+          {/* Journey pill: origin → now */}
+          <a
+            href="#story-origin"
+            className="mt-6 inline-flex flex-wrap items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] py-1.5 pl-3 pr-4 text-xs text-white/60 transition hover:border-white/25"
+          >
+            <span className="rounded-full bg-white/10 px-2 py-0.5 text-white/80">{storyOrigin.start.slice(0, 4)}</span>
+            {t(storyOrigin.place, lang)}
+            <span className="text-[#8fb0ff]">→</span>
+            <span className="rounded-full bg-[#2f6bff]/20 px-2 py-0.5 text-[#b9ccff]">{lang === 'th' ? 'ตอนนี้' : 'Now'}</span>
+            {t(storyLatest[0].role, lang)}
+          </a>
+
+          <ol className="relative mt-10">
             <span
-              className="absolute bottom-2 left-[7px] top-2 w-px bg-linear-to-b from-white/5 via-white/20 to-[#2f6bff] md:left-[calc(9rem+7px)]"
+              className="absolute bottom-0 left-[7px] top-2 w-px bg-linear-to-b from-[#2f6bff] via-white/20 to-white/5 md:left-[calc(9rem+7px)]"
               aria-hidden
             />
-            {storyChapters.map((c, i) => (
-              <li key={c.start} className="relative grid gap-3 pb-12 pl-10 last:pb-0 md:grid-cols-[9rem_1fr] md:gap-10 md:pl-0">
+            {storyLatest.map((c) => (
+              <li key={c.start} className="relative grid gap-3 pb-10 pl-10 md:grid-cols-[9rem_1fr] md:gap-10 md:pl-0">
                 <div className="md:pt-1 md:text-right">
                   <p className={`text-3xl font-medium tracking-[-0.05em] md:text-4xl ${c.now ? 'text-[#8fb0ff]' : 'text-white/80'}`}>
                     {c.now ? (lang === 'th' ? 'ตอนนี้' : 'Now') : c.start.slice(0, 4)}
@@ -353,13 +368,30 @@ export default function Home() {
                   }`}
                 >
                   <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-white/40">
-                    {String(i + 1).padStart(2, '0')} · {t(c.place, lang)}
+                    {String(storyChapters.indexOf(c) + 1).padStart(2, '0')} · {t(c.place, lang)}
                   </p>
                   <h3 className="mt-2 text-xl font-medium tracking-tight md:text-2xl">{t(c.role, lang)}</h3>
                   <p className="mt-2 leading-relaxed text-white/60">{t(c.body, lang)}</p>
                 </div>
               </li>
             ))}
+
+            {/* Origin: small note, the "where it all started" moment */}
+            <li id="story-origin" className="relative scroll-mt-28 pl-10 md:grid md:grid-cols-[9rem_1fr] md:gap-10 md:pl-0">
+              <div className="hidden md:block" />
+              <span
+                className="absolute left-[3px] top-3 h-[9px] w-[9px] rounded-full border border-dashed border-white/40 md:left-[calc(9rem+3px)]"
+                aria-hidden
+              />
+              <div className="rounded-2xl border border-dashed border-white/15 px-5 py-4 md:ml-10">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/40">
+                  📍 {lang === 'th' ? 'จุดเริ่มต้น' : 'Where it all started'} · {formatDateRange(storyOrigin.start).split(' - ')[0]} ·{' '}
+                  {t(storyOrigin.place, lang)}
+                </p>
+                <p className="mt-1.5 text-sm font-medium text-white/80">{t(storyOrigin.role, lang)}</p>
+                <p className="mt-1 text-sm leading-relaxed text-white/45">{t(storyOrigin.body, lang)}</p>
+              </div>
+            </li>
           </ol>
         </section>
 
