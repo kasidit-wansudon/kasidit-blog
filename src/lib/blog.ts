@@ -7,14 +7,13 @@ import { Marked } from 'marked';
 export const SITE_URL = 'https://kasidit-wans.com';
 const POSTS_DIR = path.join(process.cwd(), 'content', 'blog');
 
-export interface PostMeta {
-  slug: string;
-  title: string;
-  date: string; // YYYY-MM-DD
-  excerpt: string;
-  tags: string[];
-  readingMinutes: number;
-}
+import { blogPath, type BlogLang, type PostMeta } from './blog-shared';
+export { blogPath, type BlogLang, type PostMeta };
+
+/** Thai posts live in content/blog, English translations in content/blog/en (same slug). */
+const dirFor = (lang: BlogLang) => (lang === 'en' ? path.join(POSTS_DIR, 'en') : POSTS_DIR);
+
+
 
 export interface Heading {
   id: string;
@@ -58,8 +57,8 @@ const slugify = (s: string) =>
     .replace(/[^\p{L}\p{N}]+/gu, '-')
     .replace(/^-+|-+$/g, '');
 
-function readFile(file: string): { meta: PostMeta; body: string } {
-  const raw = fs.readFileSync(path.join(POSTS_DIR, file), 'utf8');
+function readFile(file: string, lang: BlogLang): { meta: PostMeta; body: string } {
+  const raw = fs.readFileSync(path.join(dirFor(lang), file), 'utf8');
   const { data, body } = parseFrontmatter(raw);
   const slug = file.replace(/\.md$/, '');
   return {
@@ -75,23 +74,28 @@ function readFile(file: string): { meta: PostMeta; body: string } {
   };
 }
 
-/** All posts, newest first. Posts dated in the future are hidden. */
-export function getAllPosts(): PostMeta[] {
-  if (!fs.existsSync(POSTS_DIR)) return [];
+/** All posts in a language, newest first. Posts dated in the future are hidden. */
+export function getAllPosts(lang: BlogLang = 'th'): PostMeta[] {
+  const dir = dirFor(lang);
+  if (!fs.existsSync(dir)) return [];
   const today = new Date().toISOString().slice(0, 10);
   return fs
-    .readdirSync(POSTS_DIR)
+    .readdirSync(dir)
     .filter((f) => f.endsWith('.md'))
-    .map((f) => readFile(f).meta)
+    .map((f) => readFile(f, lang).meta)
     .filter((p) => p.date <= today)
     .sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
-export function getPost(slug: string): Post | null {
-  if (!/^[a-z0-9-]+$/.test(slug)) return null;
+/** True when a post exists in that language. */
+export function hasPost(slug: string, lang: BlogLang): boolean {
+  return /^[a-z0-9-]+$/.test(slug) && fs.existsSync(path.join(dirFor(lang), `${slug}.md`));
+}
+
+export function getPost(slug: string, lang: BlogLang = 'th'): Post | null {
+  if (!hasPost(slug, lang)) return null;
   const file = `${slug}.md`;
-  if (!fs.existsSync(path.join(POSTS_DIR, file))) return null;
-  const { meta, body } = readFile(file);
+  const { meta, body } = readFile(file, lang);
 
   const headings: Heading[] = [];
   const marked = new Marked({
@@ -118,8 +122,8 @@ export function getPost(slug: string): Post | null {
 }
 
 /** Posts sharing the most tags with `post`, excluding itself. */
-export function getRelated(post: PostMeta, limit = 3): PostMeta[] {
-  return getAllPosts()
+export function getRelated(post: PostMeta, lang: BlogLang = 'th', limit = 3): PostMeta[] {
+  return getAllPosts(lang)
     .filter((p) => p.slug !== post.slug)
     .map((p) => ({ p, score: p.tags.filter((t) => post.tags.includes(t)).length }))
     .filter((x) => x.score > 0)
@@ -128,11 +132,14 @@ export function getRelated(post: PostMeta, limit = 3): PostMeta[] {
     .map((x) => x.p);
 }
 
-export function formatThaiDate(date: string): string {
-  return new Date(`${date}T12:00:00Z`).toLocaleDateString('th-TH', {
+export function formatDate(date: string, lang: BlogLang = 'th'): string {
+  return new Date(`${date}T12:00:00Z`).toLocaleDateString(lang === 'en' ? 'en-US' : 'th-TH', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
     timeZone: 'UTC',
   });
 }
+
+/** Back-compat alias. */
+export const formatThaiDate = (date: string) => formatDate(date, 'th');

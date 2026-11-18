@@ -1,0 +1,53 @@
+// UI strings for the bilingual blog.
+import type { BlogLang } from '@/lib/blog-shared';
+
+export const BLOG_TEXT = {
+  th: {
+    eyebrow: 'Blog · ทุกสัปดาห์',
+    h1a: 'AI, Coding',
+    h1b: 'และการบริหารทีม',
+    lead: 'โน้ตจากงานจริง — ระบบองค์กรที่ OPPO Mexico, AI agent ที่ใช้ทุกวัน และบทเรียนการนำทีม dev ข้ามประเทศ',
+    count: (n: number) => `${n} บทความ`,
+    latest: 'ล่าสุด',
+    readMore: 'อ่านต่อ',
+    search: 'ค้นหาบทความ…',
+    empty: 'ไม่พบบทความ',
+    posts: 'posts',
+    readTime: (m: number) => `อ่าน ${m} นาที`,
+    toc: 'ในบทความนี้',
+    ctaTitle: 'มีคำถามหรืออยากแลกเปลี่ยน?',
+    ctaBody: 'ฝากข้อความไว้ที่ guestbook หรือทักมาทาง X ได้เลยครับ',
+    ctaGuestbook: 'เขียน Guestbook',
+    prev: 'ก่อนหน้า',
+    next: 'ถัดไป',
+    related: 'อ่านต่อ',
+    metaTitle: 'Blog — AI, Coding และการบริหารทีม | Kasidit Wansudon',
+    metaDesc:
+      'บทความรายสัปดาห์เรื่อง AI coding, Claude Code, Laravel, Vue, ระบบองค์กร และการบริหารทีม dev จากประสบการณ์จริงของ Kasidit Wansudon',
+    rssDesc: 'AI, coding และการบริหารทีม dev จากงานจริง',
+  },
+  en: {
+    eyebrow: 'Blog · Weekly',
+    h1a: 'AI, Coding',
+    h1b: 'and leading dev teams',
+    lead: 'Notes from real work — enterprise systems at OPPO Mexico, the AI agents I use every day, and lessons from leading a cross-border dev team.',
+    count: (n: number) => `${n} posts`,
+    latest: 'Latest',
+    readMore: 'Read more',
+    search: 'Search posts…',
+    empty: 'No posts found',
+    posts: 'posts',
+    readTime: (m: number) => `${m} min read`,
+    toc: 'On this page',
+    ctaTitle: 'Questions or thoughts?',
+    ctaBody: 'Leave a note in the guestbook or reach me on X.',
+    ctaGuestbook: 'Sign the guestbook',
+    prev: 'Previous',
+    next: 'Next',
+    related: 'Keep reading',
+    metaTitle: 'Blog — AI, Coding & Leading Dev Teams | Kasidit Wansudon',
+    metaDesc:
+      'Weekly posts on AI coding, Claude Code, Laravel, Vue, enterprise systems and leading dev teams, from the real-world experience of Kasidit Wansudon.',
+    rssDesc: 'AI, coding and leading dev teams, from real work',
+  },
+} satisfies Record<BlogLang, Record<string, unknown>>;

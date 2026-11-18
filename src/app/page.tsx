@@ -50,6 +50,8 @@ export default function Home() {
   const storyOrigin = storyChapters[0];
   const storyLatest = storyChapters.slice(1).reverse();
   const h = ui.home;
+  // Blog has an English edition at /en/blog.
+  const localHref = (u: string) => (lang === 'en' && u === '/blog' ? '/en/blog' : u);
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-black text-white" aria-labelledby="page-title">
@@ -66,7 +68,7 @@ export default function Home() {
             {NAV.map((n) => (
               <Link
                 key={n.href}
-                href={n.href}
+                href={localHref(n.href)}
                 className="rounded-full px-3.5 py-1.5 text-sm text-white/70 transition hover:bg-white/5 hover:text-white"
               >
                 {t(n.label, lang)}
@@ -94,7 +96,7 @@ export default function Home() {
         {menuOpen ? (
           <div className="mx-auto mt-2 max-w-6xl rounded-3xl border border-white/10 bg-black/90 p-3 backdrop-blur-xl md:hidden">
             {NAV.map((n) => (
-              <Link key={n.href} href={n.href} className="block rounded-2xl px-4 py-3 text-white/80 hover:bg-white/5">
+              <Link key={n.href} href={localHref(n.href)} className="block rounded-2xl px-4 py-3 text-white/80 hover:bg-white/5">
                 {t(n.label, lang)}
               </Link>
             ))}
@@ -200,7 +202,7 @@ export default function Home() {
               .map((q) => (
                 <a
                   key={q.url}
-                  href={q.url}
+                  href={localHref(q.url)}
                   target={q.url.startsWith('http') ? '_blank' : undefined}
                   rel={q.url.startsWith('http') ? 'noreferrer' : undefined}
                   className="group relative flex items-center justify-between gap-4 overflow-hidden rounded-3xl border border-[#2f6bff]/50 bg-linear-to-br from-[#2f6bff]/20 via-[#0a0b0f] to-[#0a0b0f] p-6 shadow-[0_20px_60px_-30px_#2f6bff] transition hover:-translate-y-0.5 hover:border-[#8fb0ff] hover:shadow-[0_24px_70px_-24px_#2f6bff] md:p-8"
@@ -226,7 +228,7 @@ export default function Home() {
             {quickLinks.filter((q) => !q.highlight).map((q) => (
               <a
                 key={q.url}
-                href={q.url}
+                href={localHref(q.url)}
                 target="_blank"
                 rel="noreferrer"
                 className="group flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-[#0a0b0f] px-4 py-3.5 transition hover:border-[#2f6bff]/60 hover:bg-[#2f6bff]/[0.06]"

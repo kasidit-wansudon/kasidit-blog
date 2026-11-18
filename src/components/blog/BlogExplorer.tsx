@@ -1,13 +1,35 @@
 'use client';
 
 // Client-side tag filter + search over the (statically rendered) post list.
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import type { PostMeta } from '@/lib/blog';
+import { blogPath, type BlogLang, type PostMeta } from '@/lib/blog-shared';
+import { BLOG_TEXT } from './text';
 
-export default function BlogExplorer({ posts, dates }: { posts: PostMeta[]; dates: Record<string, string> }) {
+/** Compact age of a post: 3d, 2w, 5mo, 1y (computed in the browser so it never goes stale). */
+function age(date: string, now: number): string {
+  const days = Math.max(0, Math.floor((now - new Date(`${date}T12:00:00Z`).getTime()) / 86_400_000));
+  if (days < 1) return 'today';
+  if (days < 7) return `${days}d`;
+  if (days < 30) return `${Math.floor(days / 7)}w`;
+  if (days < 365) return `${Math.floor(days / 30.44)}mo`;
+  return `${Math.floor(days / 365.25)}y`;
+}
+
+export default function BlogExplorer({
+  posts,
+  dates,
+  lang,
+}: {
+  posts: PostMeta[];
+  dates: Record<string, string>;
+  lang: BlogLang;
+}) {
+  const tx = BLOG_TEXT[lang];
   const [tag, setTag] = useState<string | null>(null);
   const [q, setQ] = useState('');
+  const [now, setNow] = useState<number | null>(null);
+  useEffect(() => setNow(Date.now()), []);
 
   const tags = useMemo(() => {
     const count = new Map<string, number>();
@@ -55,7 +77,7 @@ export default function BlogExplorer({ posts, dates }: { posts: PostMeta[]; date
           ))}
         </div>
         <label className="relative block md:w-64">
-          <span className="sr-only">Search posts</span>
+          <span className="sr-only">{tx.search}</span>
           <svg
             className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40"
             viewBox="0 0 24 24"
@@ -70,13 +92,13 @@ export default function BlogExplorer({ posts, dates }: { posts: PostMeta[]; date
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="ค้นหาบทความ…"
+            placeholder={tx.search}
             className="h-10 w-full rounded-full border border-white/10 bg-white/[0.03] pl-10 pr-4 text-sm text-white placeholder:text-white/35 outline-none focus:border-[#2f6bff]/60"
           />
         </label>
       </div>
 
-      {shown.length === 0 ? <p className="mt-16 text-center text-white/45">ไม่พบบทความ</p> : null}
+      {shown.length === 0 ? <p className="mt-16 text-center text-white/45">{tx.empty}</p> : null}
 
       {Object.entries(byYear)
         .sort((a, b) => (a[0] < b[0] ? 1 : -1))
@@ -85,13 +107,15 @@ export default function BlogExplorer({ posts, dates }: { posts: PostMeta[]; date
             <h2 className="flex items-center gap-4 text-sm font-medium text-white/40">
               {year}
               <span className="h-px flex-1 bg-white/10" />
-              <span>{list.length} posts</span>
+              <span>
+                {list.length} {tx.posts}
+              </span>
             </h2>
             <ul className="mt-4 divide-y divide-white/[0.06]">
               {list.map((p) => (
                 <li key={p.slug}>
                   <Link
-                    href={`/blog/${p.slug}`}
+                    href={blogPath(lang, p.slug)}
                     className="group grid gap-2 py-5 transition md:grid-cols-[7.5rem_1fr_auto] md:items-baseline md:gap-6"
                   >
                     <time dateTime={p.date} className="text-sm text-white/40">
@@ -103,7 +127,12 @@ export default function BlogExplorer({ posts, dates }: { posts: PostMeta[]; date
                       </span>
                       <span className="mt-1 line-clamp-2 block text-sm leading-relaxed text-white/50">{p.excerpt}</span>
                     </span>
-                    <span className="text-xs text-white/35">{p.readingMinutes} นาที</span>
+                    <span
+                      className="text-xs tabular-nums text-white/35 md:min-w-10 md:text-right"
+                      title={tx.readTime(p.readingMinutes)}
+                    >
+                      {now ? age(p.date, now) : ''}
+                    </span>
                   </Link>
                 </li>
               ))}
