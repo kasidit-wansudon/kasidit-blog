@@ -8,12 +8,10 @@ import Link from 'next/link';
 import { LanguageToggle } from '@/components/LanguageToggle';
 import { useLanguage } from '@/components/LanguageProvider';
 import { resumeDataEN } from '@/data/resume';
-import { productsContent, quickLinks, t, ui } from '@/lib/i18n';
+import { productsContent, quickLinks, storyChapters, t, ui } from '@/lib/i18n';
 import {
   formatDateRange,
-  formatExperienceDuration,
   getTopSkills,
-  sortExperiencesForResume,
 } from '@/lib/resumeUtils';
 
 import McpOverview from './McpOverview';
@@ -45,9 +43,8 @@ export default function Home() {
   const { lang } = useLanguage();
   const [mcpOpen, setMcpOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const { profile, experiences, skills } = resumeDataEN;
-  const topExperiences = sortExperiencesForResume(experiences).slice(0, 3);
-  const topSkills = getTopSkills(skills, 12);
+  const { profile, skills } = resumeDataEN;
+  const topSkills = getTopSkills(skills, 16);
   const h = ui.home;
 
   return (
@@ -271,7 +268,7 @@ export default function Home() {
 
         {/* Big stats */}
         <section className="grid grid-cols-2 gap-px overflow-hidden rounded-3xl border border-white/10 bg-white/10 lg:grid-cols-4">
-          <BigStat value={`${profile.yearsOfExperience ?? 4}+`} label={t(h.statYears, lang)} />
+          <BigStat value={`${profile.yearsOfExperience}+`} label={t(h.statYears, lang)} />
           <BigStat value="5" label={t(h.statTeam, lang)} />
           <BigStat value="174" label={t(h.statRepos, lang)} />
           <BigStat value="75%" label={t(h.statBench, lang)} />
@@ -315,61 +312,72 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Experience + skills */}
-        <section className="grid gap-12 lg:grid-cols-[1.4fr_1fr]">
-          <div>
-            <SectionHead
-              eyebrow={t(ui.selectedWork.eyebrow, lang)}
-              title={t(ui.selectedWork.title, lang)}
-              action={
-                <Link href="/resume" className="text-sm text-white/50 transition hover:text-white">
-                  {t(ui.selectedWork.seeAll, lang)} →
-                </Link>
-              }
+        {/* Story: first job → now */}
+        <section id="story" className="scroll-mt-28">
+          <SectionHead
+            eyebrow={t(h.storyEyebrow, lang)}
+            title={t(h.storyTitle, lang).replace('{n}', String(profile.yearsOfExperience))}
+            lead={t(h.storyLead, lang)}
+            action={
+              <Link href="/resume" className="text-sm text-white/50 transition hover:text-white">
+                {t(ui.selectedWork.seeAll, lang)} →
+              </Link>
+            }
+          />
+          <ol className="relative mt-12">
+            <span
+              className="absolute bottom-2 left-[7px] top-2 w-px bg-linear-to-b from-white/5 via-white/20 to-[#2f6bff] md:left-[calc(9rem+7px)]"
+              aria-hidden
             />
-            <ol className="mt-8 border-l border-white/10">
-              {topExperiences.map((exp, i) => (
-                <li key={`${exp.company}-${exp.role}`} className="relative pb-10 pl-8 last:pb-0">
-                  <span
-                    className={`absolute -left-[5px] top-1.5 h-2.5 w-2.5 rounded-full ${
-                      i === 0 ? 'bg-[#2f6bff] shadow-[0_0_14px] shadow-[#2f6bff]' : 'bg-white/30'
-                    }`}
-                  />
-                  <p className="text-xs text-white/40">
-                    {formatDateRange(exp.start, exp.end)} · {formatExperienceDuration(exp)}
+            {storyChapters.map((c, i) => (
+              <li key={c.start} className="relative grid gap-3 pb-12 pl-10 last:pb-0 md:grid-cols-[9rem_1fr] md:gap-10 md:pl-0">
+                <div className="md:pt-1 md:text-right">
+                  <p className={`text-3xl font-medium tracking-[-0.05em] md:text-4xl ${c.now ? 'text-[#8fb0ff]' : 'text-white/80'}`}>
+                    {c.now ? (lang === 'th' ? 'ตอนนี้' : 'Now') : c.start.slice(0, 4)}
                   </p>
-                  <h3 className="mt-1.5 text-lg font-medium tracking-tight">{exp.role}</h3>
-                  <p className="text-sm text-white/55">{exp.company}</p>
-                  <ul className="mt-3 space-y-1.5 text-sm text-white/60">
-                    {exp.highlights.slice(0, 3).map((hl) => (
-                      <li key={hl} className="flex gap-2">
-                        <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-white/30" />
-                        {hl}
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              ))}
-            </ol>
-          </div>
-
-          <div>
-            <SectionHead eyebrow={t(ui.skills.eyebrow, lang)} title={t(ui.skills.title, lang)} lead={t(ui.skills.lead, lang)} />
-            <div className="mt-8 flex flex-wrap gap-2">
-              {topSkills.map((s) => (
+                  <p className="mt-1 text-xs text-white/35">{formatDateRange(c.start).split(' - ')[0]}</p>
+                </div>
                 <span
-                  key={s.name}
-                  className={`rounded-full border px-3.5 py-1.5 text-sm ${
-                    s.level === 'expert'
-                      ? 'border-[#2f6bff]/50 bg-[#2f6bff]/10 text-white'
-                      : 'border-white/10 text-white/65'
+                  className={`absolute left-0 top-2.5 grid h-[15px] w-[15px] place-items-center rounded-full border md:left-[9rem] ${
+                    c.now ? 'border-[#2f6bff] bg-[#2f6bff]/30' : 'border-white/25 bg-black'
+                  }`}
+                  aria-hidden
+                >
+                  <span className={`h-[5px] w-[5px] rounded-full ${c.now ? 'animate-ping bg-[#8fb0ff]' : 'bg-white/50'}`} />
+                </span>
+                <div
+                  className={`rounded-3xl border p-6 md:ml-10 ${
+                    c.now
+                      ? 'border-[#2f6bff]/50 bg-linear-to-br from-[#2f6bff]/15 to-[#0a0b0f] shadow-[0_20px_60px_-30px_#2f6bff]'
+                      : 'border-white/10 bg-[#0a0b0f]'
                   }`}
                 >
-                  {s.name}
-                  <span className="ml-2 text-[11px] text-white/35">{s.years ?? 1}y</span>
-                </span>
-              ))}
-            </div>
+                  <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-white/40">
+                    {String(i + 1).padStart(2, '0')} · {t(c.place, lang)}
+                  </p>
+                  <h3 className="mt-2 text-xl font-medium tracking-tight md:text-2xl">{t(c.role, lang)}</h3>
+                  <p className="mt-2 leading-relaxed text-white/60">{t(c.body, lang)}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        {/* Skills */}
+        <section>
+          <SectionHead eyebrow={t(ui.skills.eyebrow, lang)} title={t(ui.skills.title, lang)} lead={t(ui.skills.lead, lang)} />
+          <div className="mt-8 flex flex-wrap gap-2">
+            {topSkills.map((s) => (
+              <span
+                key={s.name}
+                className={`rounded-full border px-3.5 py-1.5 text-sm ${
+                  s.level === 'expert' ? 'border-[#2f6bff]/50 bg-[#2f6bff]/10 text-white' : 'border-white/10 text-white/65'
+                }`}
+              >
+                {s.name}
+                <span className="ml-2 text-[11px] text-white/35">{s.years ?? 1}y</span>
+              </span>
+            ))}
           </div>
         </section>
 

@@ -1,6 +1,10 @@
 // Resume data for Kasidit Wansudon - Bilingual (EN/TH)
 // Updated November 2026 — web resume (PDFs may lag behind)
-import { ResumeData } from '@/lib/resumeUtils';
+import { ResumeData, yearsSince } from '@/lib/resumeUtils';
+
+/** First professional role (LinkedIn); experience years are counted from here. */
+export const CAREER_START = '2021-02';
+const YEARS = yearsSince(CAREER_START);
 
 // English version
 export const resumeDataEN: ResumeData = {
@@ -8,7 +12,7 @@ export const resumeDataEN: ResumeData = {
     fullName: 'Kasidit Wansudon',
     title: 'Lead Programmer · Full-Stack Developer · Founder, Kasion',
     location: 'Mexico City, MX',
-    yearsOfExperience: 4,
+    yearsOfExperience: YEARS,
     focusAreas: ['Laravel', 'Vue.js', 'Go', 'Flutter'],
     currentCompany: 'OPPO Mexico (Possefy Group)',
     email: 'kasidit.wans@gmail.com',
@@ -16,7 +20,7 @@ export const resumeDataEN: ResumeData = {
     github: 'https://github.com/kasidit-wansudon',
     linkedin: 'https://www.linkedin.com/in/kasidit-wansudon/',
     summary:
-      'Lead Programmer at OPPO Mexico with 4+ years building enterprise systems — HR, sell-in/WMS, sales dashboards and DingTalk integrations — from design through production deploys. Previously Technical Lead of a 5-person cross-functional team supporting ~5,000 staff, and full-stack developer for OPPO operations across 12 countries. Creator of Kasidit, an open-source discipline framework for Claude Code, and founder of Kasion. Works in EN / TH and coordinates across ES / ZH teams.',
+      `Lead Programmer at OPPO Mexico with ${YEARS}+ years building enterprise systems — HR, sell-in/WMS, sales dashboards and DingTalk integrations — from design through production deploys. Previously Technical Lead of a 5-person cross-functional team supporting ~5,000 staff, and full-stack developer for OPPO operations across 12 countries. Creator of Kasidit, an open-source discipline framework for Claude Code, and founder of Kasion. Works in EN / TH and coordinates across ES / ZH teams.`,
   },
   experiences: [
     {
@@ -231,7 +235,7 @@ export const resumeDataTH: ResumeData = {
     fullName: 'กษิดิศ วันสุดล',
     title: 'Lead Programmer · Full-Stack Developer · Founder, Kasion',
     location: 'เม็กซิโกซิตี้, MX',
-    yearsOfExperience: 4,
+    yearsOfExperience: YEARS,
     focusAreas: ['Laravel', 'Vue.js', 'Go', 'Flutter'],
     currentCompany: 'OPPO Mexico (Possefy Group)',
     email: 'kasidit.wans@gmail.com',
@@ -239,7 +243,7 @@ export const resumeDataTH: ResumeData = {
     github: 'https://github.com/kasidit-wansudon',
     linkedin: 'https://www.linkedin.com/in/kasidit-wansudon/',
     summary:
-      'Lead Programmer ที่ OPPO Mexico ประสบการณ์ 4+ ปี สร้างระบบองค์กร — HR, sell-in/WMS, dashboard ยอดขาย และ DingTalk integration — ตั้งแต่ออกแบบจนถึง deploy production เคยเป็น Technical Lead นำทีม 5 คนดูแลพนักงาน ~5,000 คน และเป็น full-stack developer ให้ OPPO ใน 12 ประเทศ ผู้สร้าง Kasidit — open-source framework คุมวินัยของ Claude Code และผู้ก่อตั้ง Kasion ใช้ภาษา EN / TH และประสานงานกับทีม ES / ZH',
+      `Lead Programmer ที่ OPPO Mexico ประสบการณ์ ${YEARS}+ ปี สร้างระบบองค์กร — HR, sell-in/WMS, dashboard ยอดขาย และ DingTalk integration — ตั้งแต่ออกแบบจนถึง deploy production เคยเป็น Technical Lead นำทีม 5 คนดูแลพนักงาน ~5,000 คน และเป็น full-stack developer ให้ OPPO ใน 12 ประเทศ ผู้สร้าง Kasidit — open-source framework คุมวินัยของ Claude Code และผู้ก่อตั้ง Kasion ใช้ภาษา EN / TH และประสานงานกับทีม ES / ZH`,
   },
   experiences: [
     {

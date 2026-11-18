@@ -78,6 +78,18 @@ export interface ResumeData {
 }
 
 /**
+ * Whole years elapsed since a "YYYY-MM" start date (e.g. career start).
+ * Evaluated at build time on the server and again in the browser, so the
+ * count rolls over on the anniversary without editing any data.
+ */
+export function yearsSince(startYm: string, now: Date = new Date()): number {
+  const [y, m] = startYm.split('-').map(Number);
+  let years = now.getFullYear() - y;
+  if (now.getMonth() + 1 < (m || 1)) years -= 1;
+  return Math.max(0, years);
+}
+
+/**
  * Create a short one‑sentence summary for the top of the resume.
  * Example output:
  * "Full‑stack developer with 5+ years of experience, focusing on Next.js and NestJS, currently at ACME Corp."

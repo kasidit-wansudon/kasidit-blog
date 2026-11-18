@@ -138,6 +138,12 @@ export const ui = {
     statTeam: { th: 'คนในทีมที่ผมนำ', en: 'people on the team I lead' } as Dict,
     statRepos: { th: 'repo บน GitHub', en: 'public repos on GitHub' } as Dict,
     statBench: { th: 'SWE-bench resolved (vs 63% baseline)', en: 'SWE-bench resolved (vs 63% baseline)' } as Dict,
+    storyEyebrow: { th: 'เส้นทางของผม', en: 'My story' } as Dict,
+    storyTitle: { th: '{n} ปี จากศรีสะเกษถึงเม็กซิโกซิตี้', en: '{n} years, from Sisaket to Mexico City' } as Dict,
+    storyLead: {
+      th: 'ตั้งแต่งานรับจ้างชิ้นแรก จนถึงหัวหน้าโปรแกรมเมอร์อีกซีกโลก',
+      en: 'From my first paid project to leading engineering on the other side of the world.',
+    } as Dict,
     linksEyebrow: { th: 'ลิงก์ด่วน', en: 'Quick links' } as Dict,
     linksTitle: { th: 'ไปที่ระบบอื่นของผม', en: 'Jump to my other systems' } as Dict,
     linksLead: {
@@ -155,6 +161,65 @@ export const ui = {
     } as Dict,
   },
 };
+
+/** Career story, oldest → newest. `start` is YYYY-MM; the last chapter is "now". */
+export const storyChapters: { start: string; place: Dict; role: Dict; body: Dict; now?: boolean }[] = [
+  {
+    start: '2021-02',
+    place: { th: 'ศรีสะเกษ · ฟรีแลนซ์', en: 'Sisaket · Freelance' },
+    role: { th: 'งานแรก: เขียนโค้ดรับจ้างตั้งแต่ยังเรียน', en: 'First job: paid code while still at university' },
+    body: {
+      th: 'ทำ LINE ChatBot ให้เทศบาลศรีสะเกษ ที่ใช้ AI คัดเรื่องร้องเรียน และ payment gateway ให้โรงพยาบาล ก่อนหน้านั้นเคยทำงานสายโลจิสติกส์และก่อสร้าง ที่สอนให้ใจเย็นตอนงานหนัก',
+      en: 'Built a LINE chatbot for Sisaket Municipality that triages complaints with AI, and a payment gateway for a hospital. Before code, logistics and construction work taught me to stay calm under heavy load.',
+    },
+  },
+  {
+    start: '2023-06',
+    place: { th: 'นนทบุรี · SmilePOS', en: 'Nonthaburi · SmilePOS' },
+    role: { th: 'งานประจำแรก: Mobile Developer', en: 'First full-time role: Mobile Developer' },
+    body: {
+      th: 'สร้างแอป POS ร้านอาหารด้วย Flutter ที่รันได้ 6 แพลตฟอร์ม ซิงก์ข้อมูลสดด้วย MQTT',
+      en: 'Shipped Flutter POS apps for restaurants running on six platforms, with live MQTT sync.',
+    },
+  },
+  {
+    start: '2024-04',
+    place: { th: 'กรุงเทพฯ · Possefy Group (OPPO)', en: 'Bangkok · Possefy Group (OPPO)' },
+    role: { th: 'Full Stack Developer', en: 'Full Stack Developer' },
+    body: {
+      th: 'สร้างเครื่องมือหลังบ้านและ dashboard ให้ OPPO ใน 12 ประเทศ วางรากฐาน Sellout, Console, WMS และ Canteen',
+      en: 'Built back-office tools and dashboards for OPPO across 12 countries, laying the base for Sellout, Console, WMS and Canteen.',
+    },
+  },
+  {
+    start: '2026-03',
+    place: { th: 'เม็กซิโกซิตี้ · OPPO Mexico', en: 'Mexico City · OPPO Mexico' },
+    role: { th: 'ย้ายมาเม็กซิโกเป็น Technical Lead', en: 'Moved to Mexico as Technical Lead' },
+    body: {
+      th: 'นำทีม 5 คน ดูแลระบบให้พนักงาน ~5,000 คน คุยงาน 4 ภาษา ผ่านวิกฤตความปลอดภัย และย้ายระบบไป Alibaba Cloud',
+      en: 'Led a team of five supporting ~5,000 staff, worked across four languages, got through a security crisis and moved production to Alibaba Cloud.',
+    },
+  },
+  {
+    start: '2026-04',
+    place: { th: 'งานเสริม · Kasion', en: 'Side project · Kasion' },
+    role: { th: 'ก่อตั้ง Kasion และเปิด Kasidit เป็น open source', en: 'Founded Kasion, open-sourced Kasidit' },
+    body: {
+      th: 'framework ที่ทำให้ AI เขียนโค้ดแบบมีวินัย และใช้คุมงานของทีมจริงทุกวัน',
+      en: 'A framework that makes AI write code with discipline — and runs my team’s work every day.',
+    },
+  },
+  {
+    start: '2026-11',
+    now: true,
+    place: { th: 'เม็กซิโกซิตี้ · ตอนนี้', en: 'Mexico City · Now' },
+    role: { th: 'Lead Programmer ที่ OPPO Mexico', en: 'Lead Programmer at OPPO Mexico' },
+    body: {
+      th: 'ออกแบบจนถึง deploy: Sell-in Dashboard, MEX HR, DingTalk และ AI sales agent — บทต่อไปกำลังเขียนอยู่',
+      en: 'Design to deploy: Sell-in Dashboard, MEX HR, DingTalk and an AI sales agent — the next chapter is being written.',
+    },
+  },
+];
 
 /** Quick-link directory shown on the home page (other sites/systems). */
 export const quickLinks: {
